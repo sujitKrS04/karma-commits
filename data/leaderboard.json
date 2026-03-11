@@ -1,0 +1,831 @@
+[
+  {
+    "username": "torvalds",
+    "name": "Linus Torvalds",
+    "avatarUrl": "https://github.com/torvalds.png",
+    "karmaScore": 963,
+    "categoryScores": {
+      "builder": 99,
+      "reviewer": 42,
+      "bugHunter": 91,
+      "documentor": 53,
+      "mentor": 58
+    },
+    "rank": "Legend",
+    "badges": [
+      {
+        "id": "commit_storm",
+        "name": "Commit Storm",
+        "icon": "⚡",
+        "earned": true
+      },
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      },
+      {
+        "id": "bug_slayer",
+        "name": "Bug Slayer",
+        "icon": "🔥",
+        "earned": true
+      },
+      {
+        "id": "legend",
+        "name": "Legend",
+        "icon": "👑",
+        "earned": true
+      },
+      {
+        "id": "open_source_veteran",
+        "name": "OSS Veteran",
+        "icon": "🏆",
+        "earned": true
+      },
+      {
+        "id": "community_builder",
+        "name": "Community Builder",
+        "icon": "🌐",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "username": "yyx990803",
+    "name": "Evan You",
+    "avatarUrl": "https://github.com/yyx990803.png",
+    "karmaScore": 924,
+    "categoryScores": {
+      "builder": 95,
+      "reviewer": 88,
+      "bugHunter": 76,
+      "documentor": 82,
+      "mentor": 72
+    },
+    "rank": "Legend",
+    "badges": [
+      {
+        "id": "eagle_eye",
+        "name": "Eagle Eye",
+        "icon": "🦅",
+        "earned": true
+      },
+      {
+        "id": "lore_keeper",
+        "name": "Lore Keeper",
+        "icon": "🧙",
+        "earned": true
+      },
+      {
+        "id": "seed_planter",
+        "name": "Seed Planter",
+        "icon": "🌱",
+        "earned": true
+      },
+      {
+        "id": "commit_storm",
+        "name": "Commit Storm",
+        "icon": "⚡",
+        "earned": true
+      },
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      },
+      {
+        "id": "bug_slayer",
+        "name": "Bug Slayer",
+        "icon": "🔥",
+        "earned": true
+      },
+      {
+        "id": "legend",
+        "name": "Legend",
+        "icon": "👑",
+        "earned": true
+      },
+      {
+        "id": "team_player",
+        "name": "Team Player",
+        "icon": "🤝",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "username": "sindresorhus",
+    "name": "Sindre Sorhus",
+    "avatarUrl": "https://github.com/sindresorhus.png",
+    "karmaScore": 901,
+    "categoryScores": {
+      "builder": 98,
+      "reviewer": 71,
+      "bugHunter": 74,
+      "documentor": 94,
+      "mentor": 66
+    },
+    "rank": "Legend",
+    "badges": [
+      {
+        "id": "eagle_eye",
+        "name": "Eagle Eye",
+        "icon": "🦅",
+        "earned": true
+      },
+      {
+        "id": "lore_keeper",
+        "name": "Lore Keeper",
+        "icon": "🧙",
+        "earned": true
+      },
+      {
+        "id": "seed_planter",
+        "name": "Seed Planter",
+        "icon": "🌱",
+        "earned": true
+      },
+      {
+        "id": "commit_storm",
+        "name": "Commit Storm",
+        "icon": "⚡",
+        "earned": true
+      },
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      },
+      {
+        "id": "bug_slayer",
+        "name": "Bug Slayer",
+        "icon": "🔥",
+        "earned": true
+      },
+      {
+        "id": "legend",
+        "name": "Legend",
+        "icon": "👑",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "username": "gaearon",
+    "name": "Dan Abramov",
+    "avatarUrl": "https://github.com/gaearon.png",
+    "karmaScore": 873,
+    "categoryScores": {
+      "builder": 84,
+      "reviewer": 93,
+      "bugHunter": 71,
+      "documentor": 89,
+      "mentor": 87
+    },
+    "rank": "Legend",
+    "badges": [
+      {
+        "id": "eagle_eye",
+        "name": "Eagle Eye",
+        "icon": "🦅",
+        "earned": true
+      },
+      {
+        "id": "lore_keeper",
+        "name": "Lore Keeper",
+        "icon": "🧙",
+        "earned": true
+      },
+      {
+        "id": "seed_planter",
+        "name": "Seed Planter",
+        "icon": "🌱",
+        "earned": true
+      },
+      {
+        "id": "commit_storm",
+        "name": "Commit Storm",
+        "icon": "⚡",
+        "earned": true
+      },
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      },
+      {
+        "id": "legend",
+        "name": "Legend",
+        "icon": "👑",
+        "earned": true
+      },
+      {
+        "id": "team_player",
+        "name": "Team Player",
+        "icon": "🤝",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "username": "antirez",
+    "name": "Salvatore Sanfilippo",
+    "avatarUrl": "https://github.com/antirez.png",
+    "karmaScore": 848,
+    "categoryScores": {
+      "builder": 93,
+      "reviewer": 56,
+      "bugHunter": 89,
+      "documentor": 74,
+      "mentor": 61
+    },
+    "rank": "Legend",
+    "badges": [
+      {
+        "id": "commit_storm",
+        "name": "Commit Storm",
+        "icon": "⚡",
+        "earned": true
+      },
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      },
+      {
+        "id": "bug_slayer",
+        "name": "Bug Slayer",
+        "icon": "🔥",
+        "earned": true
+      },
+      {
+        "id": "lore_keeper",
+        "name": "Lore Keeper",
+        "icon": "🧙",
+        "earned": true
+      },
+      {
+        "id": "seed_planter",
+        "name": "Seed Planter",
+        "icon": "🌱",
+        "earned": true
+      },
+      {
+        "id": "legend",
+        "name": "Legend",
+        "icon": "👑",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "username": "tannerlinsley",
+    "name": "Tanner Linsley",
+    "avatarUrl": "https://github.com/tannerlinsley.png",
+    "karmaScore": 822,
+    "categoryScores": {
+      "builder": 89,
+      "reviewer": 83,
+      "bugHunter": 69,
+      "documentor": 77,
+      "mentor": 71
+    },
+    "rank": "Legend",
+    "badges": [
+      {
+        "id": "eagle_eye",
+        "name": "Eagle Eye",
+        "icon": "🦅",
+        "earned": true
+      },
+      {
+        "id": "lore_keeper",
+        "name": "Lore Keeper",
+        "icon": "🧙",
+        "earned": true
+      },
+      {
+        "id": "commit_storm",
+        "name": "Commit Storm",
+        "icon": "⚡",
+        "earned": true
+      },
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      },
+      {
+        "id": "bug_slayer",
+        "name": "Bug Slayer",
+        "icon": "🔥",
+        "earned": true
+      },
+      {
+        "id": "legend",
+        "name": "Legend",
+        "icon": "👑",
+        "earned": true
+      },
+      {
+        "id": "seed_planter",
+        "name": "Seed Planter",
+        "icon": "🌱",
+        "earned": true
+      },
+      {
+        "id": "team_player",
+        "name": "Team Player",
+        "icon": "🤝",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "username": "tj",
+    "name": "TJ Holowaychuk",
+    "avatarUrl": "https://github.com/tj.png",
+    "karmaScore": 811,
+    "categoryScores": {
+      "builder": 97,
+      "reviewer": 49,
+      "bugHunter": 61,
+      "documentor": 67,
+      "mentor": 53
+    },
+    "rank": "Legend",
+    "badges": [
+      {
+        "id": "commit_storm",
+        "name": "Commit Storm",
+        "icon": "⚡",
+        "earned": true
+      },
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      },
+      {
+        "id": "lore_keeper",
+        "name": "Lore Keeper",
+        "icon": "🧙",
+        "earned": true
+      },
+      {
+        "id": "legend",
+        "name": "Legend",
+        "icon": "👑",
+        "earned": true
+      },
+      {
+        "id": "open_source_veteran",
+        "name": "OSS Veteran",
+        "icon": "🏆",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "username": "kentcdodds",
+    "name": "Kent C. Dodds",
+    "avatarUrl": "https://github.com/kentcdodds.png",
+    "karmaScore": 792,
+    "categoryScores": {
+      "builder": 73,
+      "reviewer": 76,
+      "bugHunter": 59,
+      "documentor": 90,
+      "mentor": 96
+    },
+    "rank": "Legend",
+    "badges": [
+      {
+        "id": "eagle_eye",
+        "name": "Eagle Eye",
+        "icon": "🦅",
+        "earned": true
+      },
+      {
+        "id": "lore_keeper",
+        "name": "Lore Keeper",
+        "icon": "🧙",
+        "earned": true
+      },
+      {
+        "id": "seed_planter",
+        "name": "Seed Planter",
+        "icon": "🌱",
+        "earned": true
+      },
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      },
+      {
+        "id": "legend",
+        "name": "Legend",
+        "icon": "👑",
+        "earned": true
+      },
+      {
+        "id": "team_player",
+        "name": "Team Player",
+        "icon": "🤝",
+        "earned": true
+      },
+      {
+        "id": "community_builder",
+        "name": "Community Builder",
+        "icon": "🌐",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "username": "developit",
+    "name": "Jason Miller",
+    "avatarUrl": "https://github.com/developit.png",
+    "karmaScore": 761,
+    "categoryScores": {
+      "builder": 88,
+      "reviewer": 73,
+      "bugHunter": 66,
+      "documentor": 79,
+      "mentor": 62
+    },
+    "rank": "Legend",
+    "badges": [
+      {
+        "id": "eagle_eye",
+        "name": "Eagle Eye",
+        "icon": "🦅",
+        "earned": true
+      },
+      {
+        "id": "lore_keeper",
+        "name": "Lore Keeper",
+        "icon": "🧙",
+        "earned": true
+      },
+      {
+        "id": "commit_storm",
+        "name": "Commit Storm",
+        "icon": "⚡",
+        "earned": true
+      },
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      },
+      {
+        "id": "seed_planter",
+        "name": "Seed Planter",
+        "icon": "🌱",
+        "earned": true
+      },
+      {
+        "id": "legend",
+        "name": "Legend",
+        "icon": "👑",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "username": "nicolo-ribaudo",
+    "name": "Nicolò Ribaudo",
+    "avatarUrl": "https://github.com/nicolo-ribaudo.png",
+    "karmaScore": 743,
+    "categoryScores": {
+      "builder": 76,
+      "reviewer": 94,
+      "bugHunter": 86,
+      "documentor": 66,
+      "mentor": 61
+    },
+    "rank": "Legend",
+    "badges": [
+      {
+        "id": "eagle_eye",
+        "name": "Eagle Eye",
+        "icon": "🦅",
+        "earned": true
+      },
+      {
+        "id": "lore_keeper",
+        "name": "Lore Keeper",
+        "icon": "🧙",
+        "earned": true
+      },
+      {
+        "id": "bug_slayer",
+        "name": "Bug Slayer",
+        "icon": "🔥",
+        "earned": true
+      },
+      {
+        "id": "seed_planter",
+        "name": "Seed Planter",
+        "icon": "🌱",
+        "earned": true
+      },
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      },
+      {
+        "id": "legend",
+        "name": "Legend",
+        "icon": "👑",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "username": "addyosmani",
+    "name": "Addy Osmani",
+    "avatarUrl": "https://github.com/addyosmani.png",
+    "karmaScore": 722,
+    "categoryScores": {
+      "builder": 71,
+      "reviewer": 69,
+      "bugHunter": 63,
+      "documentor": 96,
+      "mentor": 89
+    },
+    "rank": "Legend",
+    "badges": [
+      {
+        "id": "lore_keeper",
+        "name": "Lore Keeper",
+        "icon": "🧙",
+        "earned": true
+      },
+      {
+        "id": "seed_planter",
+        "name": "Seed Planter",
+        "icon": "🌱",
+        "earned": true
+      },
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      },
+      {
+        "id": "legend",
+        "name": "Legend",
+        "icon": "👑",
+        "earned": true
+      },
+      {
+        "id": "community_builder",
+        "name": "Community Builder",
+        "icon": "🌐",
+        "earned": true
+      },
+      {
+        "id": "team_player",
+        "name": "Team Player",
+        "icon": "🤝",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "username": "feross",
+    "name": "Feross Aboukhadijeh",
+    "avatarUrl": "https://github.com/feross.png",
+    "karmaScore": 702,
+    "categoryScores": {
+      "builder": 86,
+      "reviewer": 66,
+      "bugHunter": 76,
+      "documentor": 71,
+      "mentor": 59
+    },
+    "rank": "Legend",
+    "badges": [
+      {
+        "id": "lore_keeper",
+        "name": "Lore Keeper",
+        "icon": "🧙",
+        "earned": true
+      },
+      {
+        "id": "commit_storm",
+        "name": "Commit Storm",
+        "icon": "⚡",
+        "earned": true
+      },
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      },
+      {
+        "id": "bug_slayer",
+        "name": "Bug Slayer",
+        "icon": "🔥",
+        "earned": true
+      },
+      {
+        "id": "legend",
+        "name": "Legend",
+        "icon": "👑",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "username": "getify",
+    "name": "Kyle Simpson",
+    "avatarUrl": "https://github.com/getify.png",
+    "karmaScore": 681,
+    "categoryScores": {
+      "builder": 63,
+      "reviewer": 59,
+      "bugHunter": 56,
+      "documentor": 93,
+      "mentor": 97
+    },
+    "rank": "Legend",
+    "badges": [
+      {
+        "id": "lore_keeper",
+        "name": "Lore Keeper",
+        "icon": "🧙",
+        "earned": true
+      },
+      {
+        "id": "seed_planter",
+        "name": "Seed Planter",
+        "icon": "🌱",
+        "earned": true
+      },
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      },
+      {
+        "id": "legend",
+        "name": "Legend",
+        "icon": "👑",
+        "earned": true
+      },
+      {
+        "id": "community_builder",
+        "name": "Community Builder",
+        "icon": "🌐",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "username": "paulirish",
+    "name": "Paul Irish",
+    "avatarUrl": "https://github.com/paulirish.png",
+    "karmaScore": 661,
+    "categoryScores": {
+      "builder": 69,
+      "reviewer": 83,
+      "bugHunter": 71,
+      "documentor": 91,
+      "mentor": 74
+    },
+    "rank": "Legend",
+    "badges": [
+      {
+        "id": "eagle_eye",
+        "name": "Eagle Eye",
+        "icon": "🦅",
+        "earned": true
+      },
+      {
+        "id": "lore_keeper",
+        "name": "Lore Keeper",
+        "icon": "🧙",
+        "earned": true
+      },
+      {
+        "id": "seed_planter",
+        "name": "Seed Planter",
+        "icon": "🌱",
+        "earned": true
+      },
+      {
+        "id": "bug_slayer",
+        "name": "Bug Slayer",
+        "icon": "🔥",
+        "earned": true
+      },
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      },
+      {
+        "id": "legend",
+        "name": "Legend",
+        "icon": "👑",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "username": "wesbos",
+    "name": "Wes Bos",
+    "avatarUrl": "https://github.com/wesbos.png",
+    "karmaScore": 642,
+    "categoryScores": {
+      "builder": 66,
+      "reviewer": 56,
+      "bugHunter": 49,
+      "documentor": 89,
+      "mentor": 93
+    },
+    "rank": "Legend",
+    "badges": [
+      {
+        "id": "lore_keeper",
+        "name": "Lore Keeper",
+        "icon": "🧙",
+        "earned": true
+      },
+      {
+        "id": "seed_planter",
+        "name": "Seed Planter",
+        "icon": "🌱",
+        "earned": true
+      },
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      },
+      {
+        "id": "legend",
+        "name": "Legend",
+        "icon": "👑",
+        "earned": true
+      },
+      {
+        "id": "community_builder",
+        "name": "Community Builder",
+        "icon": "🌐",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "username": "sujitKrS04",
+    "name": "Sujit Kumar Sarkar",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/144508383?v=4",
+    "karmaScore": 24,
+    "categoryScores": {
+      "builder": 12,
+      "reviewer": 0,
+      "bugHunter": 0,
+      "documentor": 0,
+      "mentor": 0
+    },
+    "rank": "Apprentice",
+    "badges": [],
+    "updatedAt": "2026-03-11T08:08:46.452Z"
+  }
+]
