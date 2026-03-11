@@ -34,9 +34,10 @@ const NOISE_SVG = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 
 interface PassportCardProps {
   passport: KarmaPassport;
+  aiScore?: { score: number; grade: string };
 }
 
-function PassportCard({ passport }: PassportCardProps) {
+function PassportCard({ passport, aiScore }: PassportCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
 
@@ -346,6 +347,55 @@ function PassportCard({ passport }: PassportCardProps) {
                 </RadarChart>
               </div>
             </div>
+
+            {/* AI CODE REVIEW ROW (optional) */}
+            {aiScore && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  paddingTop: "6px",
+                  borderTop: "1px solid #21262d",
+                  marginTop: "-4px",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "9px",
+                    color: "#f0a500",
+                    letterSpacing: "0.12em",
+                    fontWeight: 700,
+                    width: "90px",
+                    flexShrink: 0,
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  ✦ AI CODE REVIEW
+                </span>
+                <span
+                  style={{
+                    fontSize: "10px",
+                    color: "#e6edf3",
+                    fontVariantNumeric: "tabular-nums",
+                    marginLeft: "auto",
+                    flexShrink: 0,
+                  }}
+                >
+                  {aiScore.score} / 100
+                </span>
+                <span
+                  style={{
+                    fontSize: "10px",
+                    color: "#f0a500",
+                    fontWeight: 700,
+                    flexShrink: 0,
+                  }}
+                >
+                  {aiScore.grade}
+                </span>
+              </div>
+            )}
 
             {/* CATEGORY MINI BARS — 5 rows */}
             <div style={{ display: "flex", flexDirection: "column", gap: "7px" }}>

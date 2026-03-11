@@ -18,6 +18,27 @@ import PassportCard from "@/components/PassportCard";
 import { type KarmaPassport, type ContributionData } from "@/lib/types";
 import { buildPassportFromContribution } from "@/lib/karmaEngine";
 
+// ─── SparkleIcon — pulsing ✦ for AI Review nav link ─────────────────────────
+
+function SparkleIcon() {
+  return (
+    <span
+      style={{
+        display: "inline-block",
+        animation: "kc-pulse 2s ease-in-out infinite",
+      }}
+    >
+      ✦
+      <style>{`
+        @keyframes kc-pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
+        }
+      `}</style>
+    </span>
+  );
+}
+
 // ─── Rate Limit Countdown ─────────────────────────────────────────────────────
 
 function RateLimitCountdown({ onRetry }: { onRetry: () => void }) {
@@ -509,6 +530,20 @@ function PassportSection({ passport }: { passport: KarmaPassport }) {
     `My open-source Karma Score: ${passport.score.total}/1000 (${tierLabelText}) via @KarmaCommits — https://karma-commits.vercel.app`
   );
 
+  // Load AI score from localStorage if user toggled it on from the AI Review page
+  const [aiScore, setAiScore] = useState<{ score: number; grade: string } | undefined>(undefined);
+  useEffect(() => {
+    try {
+      const showAi = localStorage.getItem("kc_ai_on_passport") === "true";
+      if (showAi) {
+        const raw = localStorage.getItem("kc_ai_score");
+        if (raw) setAiScore(JSON.parse(raw));
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
   return (
     <motion.div
       className="border border-gh-border bg-gh-surface p-6 hover:border-amber/40 transition-colors duration-200"
@@ -532,7 +567,7 @@ function PassportSection({ passport }: { passport: KarmaPassport }) {
 
       {/* Passport Card — 800×460px, horizontally scrollable if needed */}
       <div className="overflow-x-auto">
-        <PassportCard passport={passport} />
+        <PassportCard passport={passport} aiScore={aiScore} />
       </div>
     </motion.div>
   );
@@ -676,6 +711,19 @@ export default function DashboardPage() {
             >
               <Trophy size={12} />
               Leaderboard
+            </Link>
+          )}
+
+          {/* ✦ AI Review link — only shown when logged in as own profile */}
+          {!isViewMode && (
+            <Link
+              href="/ai-review"
+              className="font-mono text-xs transition-colors flex items-center gap-1"
+              style={{ color: "#f0a500" }}
+              title="AI-powered code quality analysis"
+            >
+              <SparkleIcon />
+              AI Review
             </Link>
           )}
 

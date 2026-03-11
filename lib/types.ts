@@ -167,6 +167,44 @@ export interface LeaderboardUser {
   updatedAt: string;
 }
 
+// ─── AI Review Types (Phase 7) ────────────────────────────────────────────────
+
+export interface AIReviewDimension {
+  id: string
+  name: string
+  score: number
+  grade: string
+  summary: string
+  strengths: string[]
+  improvements: string[]
+}
+
+export interface AIReview {
+  overallScore: number
+  overallVerdict: string
+  developerPersonality: 'Pragmatist' | 'Perfectionist' | 'Experimenter' | 'Architect' | 'Hacker'
+  developerPersonalityReason: string
+  dimensions: AIReviewDimension[]
+  topStrengths: string[]
+  topImprovements: string[]
+  repoHighlights: Array<{ repoName: string; standoutObservation: string }>
+  careerInsight: string
+}
+
+export interface CodePayload {
+  username: string
+  totalReposAnalyzed: number
+  repos: Array<{
+    name: string
+    description: string
+    stars: number
+    language: string
+    url: string
+    files: Array<{ path: string; content: string; language: string }>
+    readme: string
+  }>
+}
+
 // ─── NextAuth Session Extension ───────────────────────────────────────────────
 
 declare module "next-auth" {
