@@ -383,7 +383,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <span className="font-mono text-sm text-gh-muted">
             karma<span className="text-amber">commits</span>{" "}
-            <span className="text-gh-border">©</span> 2024. Built for open source.
+            <span className="text-gh-border">©</span> 2026. Built for open source.
           </span>
           <div className="flex items-center gap-6 text-xs font-mono text-gh-muted">
             <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-gh-text transition-colors flex items-center gap-1">
