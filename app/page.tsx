@@ -3,8 +3,9 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Github, ArrowRight, GitPullRequest, Users, FileText, Cpu, Share2 } from "lucide-react";
+import LoadingScreen from "@/components/LoadingScreen";
 
 // ─── Animated Counter ─────────────────────────────────────────────────────────
 
@@ -139,6 +140,7 @@ const howItWorksCards = [
 export default function LandingPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   // Redirect authenticated users to dashboard
   useEffect(() => {
@@ -148,11 +150,18 @@ export default function LandingPage() {
   }, [status, session, router]);
 
   const handleSignIn = () => {
+    setIsAuthenticating(true);
     signIn("github", { callbackUrl: "/dashboard" });
   };
 
   return (
     <div className="min-h-screen bg-gh-bg text-gh-text overflow-x-hidden">
+      <AnimatePresence>
+        {isAuthenticating && (
+          <LoadingScreen message="Connecting to GitHub..." />
+        )}
+      </AnimatePresence>
+
       {/* ── Nav ── */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 border-b border-gh-border bg-gh-bg/90 backdrop-blur-sm">
         <span className="font-mono font-bold text-amber tracking-tight text-lg">
