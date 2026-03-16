@@ -827,5 +827,60 @@
     "rank": "Apprentice",
     "badges": [],
     "updatedAt": "2026-03-11T11:03:11.216Z"
+  },
+  {
+    "username": "Md-Arif-hasnat99",
+    "name": "Md Arif Hasnat",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/143590664?v=4",
+    "karmaScore": 152,
+    "categoryScores": {
+      "builder": 42,
+      "reviewer": 2,
+      "bugHunter": 8,
+      "documentor": 0,
+      "mentor": 0
+    },
+    "rank": "Apprentice",
+    "badges": [],
+    "updatedAt": "2026-03-16T09:29:33.582Z"
+  },
+  {
+    "username": "AnkanSaha",
+    "name": "Ankan Saha",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/93839804?v=4",
+    "karmaScore": 500,
+    "categoryScores": {
+      "builder": 100,
+      "reviewer": 65,
+      "bugHunter": 70,
+      "documentor": 0,
+      "mentor": 0
+    },
+    "rank": "Contributor",
+    "badges": [
+      {
+        "id": "commit_storm",
+        "name": "Commit Storm",
+        "icon": "⚡",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-16T09:34:50.989Z"
+  },
+  {
+    "username": "NabanitaKundu05",
+    "name": "Nabanita Kundu",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/201206931?v=4",
+    "karmaScore": 14,
+    "categoryScores": {
+      "builder": 7,
+      "reviewer": 0,
+      "bugHunter": 0,
+      "documentor": 0,
+      "mentor": 0
+    },
+    "rank": "Apprentice",
+    "badges": [],
+    "updatedAt": "2026-03-16T09:41:05.324Z"
   }
 ]

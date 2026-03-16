@@ -1,10 +1,9 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { Github, ArrowRight, GitPullRequest, Users, FileText, Cpu, Share2 } from "lucide-react";
+import { ArrowRight, GitPullRequest, Users, FileText, Cpu, Share2 } from "lucide-react";
 import LoadingScreen from "@/components/LoadingScreen";
 
 // ─── Animated Counter ─────────────────────────────────────────────────────────
@@ -60,30 +59,18 @@ const dimensions = [
 
 const howItWorksCards = [
   {
-    icon: <Github size={28} className="text-amber" />,
-    title: "Connect",
+    icon: <GitPullRequest size={28} className="text-amber" />,
+    title: "Analyze",
     step: "01",
     content: (
       <p className="text-gh-muted text-sm leading-relaxed font-sans">
-        Sign in with GitHub OAuth. We request{" "}
-        <span className="text-gh-text font-mono text-xs bg-gh-bg px-1 py-0.5 border border-gh-border">
-          read:user
-        </span>
-        ,{" "}
-        <span className="text-gh-text font-mono text-xs bg-gh-bg px-1 py-0.5 border border-gh-border">
-          public_repo
-        </span>
-        , and{" "}
-        <span className="text-gh-text font-mono text-xs bg-gh-bg px-1 py-0.5 border border-gh-border">
-          read:org
-        </span>{" "}
-        scopes — nothing private, ever.
+        Type any GitHub username — yours or anyone else's. We analyze all public contributions, from code to reviews to documentation work.
       </p>
     ),
   },
   {
     icon: <Cpu size={28} className="text-emerald" />,
-    title: "Analyze",
+    title: "Score",
     step: "02",
     content: (
       <div className="space-y-2">
@@ -138,29 +125,30 @@ const howItWorksCards = [
 // ─── Landing Page ─────────────────────────────────────────────────────────────
 
 export default function LandingPage() {
-  const { data: session, status } = useSession();
   const router = useRouter();
-  const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [username, setUsername] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // Redirect authenticated users to dashboard
-  useEffect(() => {
-    if (status === "authenticated" && session) {
-      router.push("/dashboard");
+  const handleAnalyze = () => {
+    const trimmed = username.trim();
+    if (!trimmed) return;
+    setLoading(true);
+    // Show loading for 1.5 seconds then redirect
+    setTimeout(() => {
+      router.push(`/dashboard?username=${encodeURIComponent(trimmed)}`);
+    }, 1500);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleAnalyze();
     }
-  }, [status, session, router]);
-
-  const handleSignIn = () => {
-    setIsAuthenticating(true);
-    signIn("github", { callbackUrl: "/dashboard" });
   };
 
   return (
     <div className="min-h-screen bg-gh-bg text-gh-text overflow-x-hidden">
-      <AnimatePresence>
-        {isAuthenticating && (
-          <LoadingScreen message="Connecting to GitHub..." />
-        )}
-      </AnimatePresence>
+      {/* ── Loading Overlay ── */}
+      {loading && <LoadingScreen message="Analyzing your GitHub profile..." />}
 
       {/* ── Nav ── */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 border-b border-gh-border bg-gh-bg/90 backdrop-blur-sm">
@@ -168,13 +156,25 @@ export default function LandingPage() {
           karma<span className="text-gh-text">commits</span>
           <span className="beta-tag">BETA</span>
         </span>
-        <button
-          onClick={handleSignIn}
-          className="flex items-center gap-2 text-sm font-mono text-gh-muted hover:text-gh-text transition-colors border border-gh-border px-3 py-1.5 hover:border-gh-muted"
-        >
-          <Github size={14} />
-          Sign in
-        </button>
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2 text-sm font-mono text-gh-muted border border-gh-border px-3 py-1.5">
+            <input
+              type="text"
+              placeholder="github username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              onKeyPress={handleKeyPress}
+              className="bg-transparent outline-none w-32 text-gh-text placeholder:text-gh-muted"
+            />
+            <button
+              onClick={handleAnalyze}
+              disabled={!username.trim()}
+              className="text-xs font-bold text-amber hover:text-amber/80 disabled:text-gh-muted transition-colors"
+            >
+              →
+            </button>
+          </div>
+        </div>
       </nav>
 
       {/* ── HERO ── */}
@@ -218,33 +218,34 @@ export default function LandingPage() {
             </p>
 
             {/* CTA */}
-            <motion.button
-              onClick={handleSignIn}
-              className="btn-amber group"
-              whileTap={{ scale: 0.97 }}
-            >
-              <Github size={18} className="relative z-10" />
-              <span className="relative z-10">Connect GitHub</span>
-              <ArrowRight
-                size={18}
-                className="relative z-10 transition-transform group-hover:translate-x-1"
-              />
-            </motion.button>
+            <div className="flex flex-col items-center gap-4">
+              <div className="flex items-center gap-2 border border-gh-border bg-gh-bg px-2 py-2">
+                <input
+                  type="text"
+                  placeholder="your github username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  className="bg-transparent outline-none text-gh-text placeholder:text-gh-muted font-mono text-sm px-3"
+                />
+                <motion.button
+                  onClick={handleAnalyze}
+                  disabled={!username.trim()}
+                  className="btn-amber"
+                  whileTap={{ scale: 0.97 }}
+                >
+                  <span>Analyze</span>
+                  <ArrowRight
+                    size={18}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
+                </motion.button>
+              </div>
+            </div>
 
             <p className="mt-4 text-gh-muted text-xs font-mono">
-              read:user · public_repo · read:org — no private access, ever
+              Public profiles only. No login required.
             </p>
-          </motion.div>
-
-          {/* Scroll indicator */}
-          <motion.div
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2, duration: 0.5 }}
-          >
-            <span className="text-gh-muted text-xs font-mono">scroll</span>
-            <div className="w-px h-8 bg-gradient-to-b from-gh-muted to-transparent" />
           </motion.div>
         </div>
       </section>
@@ -332,10 +333,10 @@ export default function LandingPage() {
               </h2>
             </div>
             <button
-              onClick={handleSignIn}
+              onClick={handleAnalyze}
+              disabled={!username.trim()}
               className="btn-amber text-sm whitespace-nowrap"
             >
-              <Github size={15} />
               See your score →
             </button>
           </div>
@@ -380,9 +381,8 @@ export default function LandingPage() {
             Join thousands of open source contributors who&apos;ve already claimed
             their Karma Passport.
           </p>
-          <button onClick={handleSignIn} className="btn-amber">
-            <Github size={18} />
-            Connect GitHub →
+          <button onClick={handleAnalyze} disabled={!username.trim()} className="btn-amber">
+            Analyze →
           </button>
         </motion.div>
       </section>
@@ -395,8 +395,8 @@ export default function LandingPage() {
             <span className="text-gh-border">©</span> 2026. Built for open source.
           </span>
           <div className="flex items-center gap-6 text-xs font-mono text-gh-muted">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-gh-text transition-colors flex items-center gap-1">
-              <Github size={13} /> GitHub
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-gh-text transition-colors">
+              GitHub
             </a>
             <span className="text-gh-border">·</span>
             <span>Privacy: we store nothing.</span>

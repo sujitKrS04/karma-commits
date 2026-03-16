@@ -1,8 +1,8 @@
 "use client";
 
+import { Suspense } from "react";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import AIReviewError from "@/components/AIReviewError";
@@ -308,9 +308,10 @@ function DimensionCard({
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
-export default function AIReviewPage() {
-  const { data: session, status } = useSession();
+function AIReviewPageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const username = searchParams.get("username") ?? "";
 
   const [review, setReview] = useState<AIReview | null>(null);
   const [loading, setLoading] = useState(true);
@@ -318,11 +319,12 @@ export default function AIReviewPage() {
   const [error, setError] = useState<string | null>(null);
   const [aiScoreOnPassport, setAiScoreOnPassport] = useState(false);
 
-  const username =
-    (session as { login?: string })?.login ??
-    session?.user?.name ??
-    session?.user?.email?.split("@")[0] ??
-    "";
+  // Redirect if no username
+  useEffect(() => {
+    if (!username) {
+      router.replace("/");
+    }
+  }, [username, router]);
 
   const fetchReview = useCallback(async () => {
     if (!username) return;
@@ -363,17 +365,12 @@ export default function AIReviewPage() {
     }
   }, [username]);
 
-  // Redirect if unauthenticated
+  // Fetch on mount once username is ready
   useEffect(() => {
-    if (status === "unauthenticated") router.replace("/");
-  }, [status, router]);
-
-  // Fetch on mount once session is ready
-  useEffect(() => {
-    if (status === "authenticated" && username) {
+    if (username) {
       fetchReview();
     }
-  }, [status, username, fetchReview]);
+  }, [username, fetchReview]);
 
   // Load saved passport toggle
   useEffect(() => {
@@ -461,18 +458,9 @@ export default function AIReviewPage() {
 
             {/* LEFT: Identity */}
             <div className="p-6 flex items-center gap-4">
-              {session?.user?.image && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={session.user.image}
-                  alt={username}
-                  className="w-16 h-16 rounded-full flex-shrink-0"
-                  style={{ outline: "2px solid #f0a500", outlineOffset: "3px" }}
-                />
-              )}
               <div>
                 <p className="font-mono font-bold text-gh-text text-base leading-tight">
-                  {session?.user?.name ?? username}
+                  {username}
                 </p>
                 <p className="font-mono text-gh-muted text-xs mb-1">
                   @{username}
@@ -751,6 +739,14 @@ export default function AIReviewPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AIReviewPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gh-bg text-gh-text" />}>
+      <AIReviewPageContent />
+    </Suspense>
   );
 }
 
