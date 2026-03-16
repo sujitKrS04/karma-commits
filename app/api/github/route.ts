@@ -1,6 +1,4 @@
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "@/lib/authOptions";
 import { fetchContributionData } from "@/lib/githubFetcher";
 import { calculateKarma } from "@/lib/karmaEngine";
 import { upsertLeaderboardEntry } from "@/lib/leaderboard";
@@ -31,39 +29,25 @@ function setCache(username: string, data: ContributionData): void {
 }
 
 // ─── GET /api/github?username={username} ──────────────────────────────────────
-// username is optional — falls back to the authenticated user's login
+// username is required
 
 export async function GET(request: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const { searchParams } = new URL(request.url);
+  const username = searchParams.get("username")?.trim();
 
-  if (!session || !session.accessToken) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  // Require username parameter
+  if (!username) {
+    return NextResponse.json({ error: "username parameter is required" }, { status: 400 });
   }
 
-  const { searchParams } = new URL(request.url);
-  let username = searchParams.get("username")?.trim();
-
-  // Fall back to the authenticated user when no username is provided
-  if (!username) {
-    // Prefer the login stored in the session token (set during OAuth sign-in)
-    if (session.login) {
-      username = session.login;
-    } else {
-      // Last resort: ask GitHub API
-      try {
-        const res = await fetch("https://api.github.com/user", {
-          headers: {
-            Authorization: `Bearer ${session.accessToken}`,
-            Accept: "application/vnd.github+json",
-          },
-        });
-        if (!res.ok) throw new Error("Could not resolve authenticated user");
-        const me = await res.json() as { login: string };
-        username = me.login;
-      } catch {
-        return NextResponse.json({ error: "Could not determine GitHub username" }, { status: 400 });
-      }
-    }
+  // Get the GitHub token from environment
+  const githubToken = process.env.GITHUB_TOKEN;
+  if (!githubToken) {
+    console.error("[API] GITHUB_TOKEN is not set in environment");
+    return NextResponse.json(
+      { error: "Server configuration error" },
+      { status: 500 }
+    );
   }
 
   // Return cached result if available
@@ -75,32 +59,28 @@ export async function GET(request: NextRequest) {
 
   try {
     console.log(`[API] fetching contribution data for ${username}…`);
-    const raw = await fetchContributionData(username, session.accessToken);
+    const raw = await fetchContributionData(username, githubToken);
     const result = calculateKarma(raw);
 
     setCache(username, result);
 
-    // Persist to leaderboard whenever we compute a fresh score for
-    // the authenticated user (not when viewing other profiles read-only)
-    const authedLogin = session.login ?? "";
-    if (!authedLogin || authedLogin.toLowerCase() === username.toLowerCase()) {
-      try {
-        upsertLeaderboardEntry({
-          username: result.username,
-          name: result.name ?? result.username,
-          avatarUrl: result.avatarUrl,
-          karmaScore: result.karmaScore,
-          categoryScores: result.categoryScores,
-          rank: result.rank as "Apprentice" | "Contributor" | "Veteran" | "Legend",
-          badges: result.badges
-            .filter((b) => b.earned)
-            .map((b) => ({ id: b.id, name: b.name ?? b.id, icon: b.icon, earned: true })),
-        });
-        console.log(`[API] leaderboard updated for ${username}`);
-      } catch (leErr) {
-        // Non-fatal — log and continue
-        console.warn(`[API] leaderboard upsert failed for ${username}:`, leErr);
-      }
+    // Upsert to leaderboard for any username analyzed
+    try {
+      upsertLeaderboardEntry({
+        username: result.username,
+        name: result.name ?? result.username,
+        avatarUrl: result.avatarUrl,
+        karmaScore: result.karmaScore,
+        categoryScores: result.categoryScores,
+        rank: result.rank as "Apprentice" | "Contributor" | "Veteran" | "Legend",
+        badges: result.badges
+          .filter((b) => b.earned)
+          .map((b) => ({ id: b.id, name: b.name ?? b.id, icon: b.icon, earned: true })),
+      });
+      console.log(`[API] leaderboard updated for ${username}`);
+    } catch (leErr) {
+      // Non-fatal — log and continue
+      console.warn(`[API] leaderboard upsert failed for ${username}:`, leErr);
     }
 
     return NextResponse.json(result);

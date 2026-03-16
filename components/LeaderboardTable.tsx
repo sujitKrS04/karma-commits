@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { Trophy } from "lucide-react";
 
 // Placeholder leaderboard data — will be replaced with real API data in Phase 2
@@ -33,8 +32,6 @@ const RANK_ICONS: Record<number, string> = {
 };
 
 export default function LeaderboardTable() {
-  const { data: session } = useSession();
-
   return (
     <div className="border border-gh-border bg-gh-surface overflow-hidden">
       {/* Note banner */}
@@ -57,18 +54,12 @@ export default function LeaderboardTable() {
       {/* Rows */}
       <div className="divide-y divide-gh-border">
         {PLACEHOLDER_ENTRIES.map((entry) => {
-          const isCurrentUser =
-            session?.user?.name?.toLowerCase() === entry.name.toLowerCase();
           const tierColor = TIER_COLORS[entry.tier] ?? "#8b949e";
 
           return (
             <div
               key={entry.rank}
-              className={`grid grid-cols-[3rem_1fr_8rem_6rem_5rem] gap-4 px-5 py-3.5 items-center transition-colors ${
-                isCurrentUser
-                  ? "bg-amber/5 border-l-2 border-l-amber"
-                  : "hover:bg-gh-bg"
-              }`}
+              className="grid grid-cols-[3rem_1fr_8rem_6rem_5rem] gap-4 px-5 py-3.5 items-center transition-colors hover:bg-gh-bg"
             >
               {/* Rank */}
               <span className="font-mono text-sm text-gh-muted text-center">
@@ -81,11 +72,6 @@ export default function LeaderboardTable() {
               <div className="min-w-0">
                 <p className="font-mono text-sm text-gh-text truncate">
                   {entry.name}
-                  {isCurrentUser && (
-                    <span className="ml-2 font-mono text-xs text-amber">
-                      (you)
-                    </span>
-                  )}
                 </p>
                 <p className="font-mono text-xs text-gh-muted">@{entry.login}</p>
               </div>

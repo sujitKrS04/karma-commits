@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback, memo } from "react";
-import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -280,7 +279,6 @@ const LeaderboardRow = memo(function LeaderboardRow({
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function LeaderboardPage() {
-  const { data: session } = useSession();
   const router = useRouter();
 
   const [activeTab, setActiveTab] = useState<FilterTab>("Overall");
@@ -289,12 +287,6 @@ export default function LeaderboardPage() {
   const [sorted, setSorted] = useState<LeaderboardUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [listKey, setListKey] = useState(0);
-
-  // Resolve logged-in username
-  const currentLogin: string =
-    session?.login?.toLowerCase() ??
-    session?.user?.name?.toLowerCase() ??
-    "";
 
   // ── Load ──
   useEffect(() => {
@@ -326,22 +318,8 @@ export default function LeaderboardPage() {
     [allEntries]
   );
 
-  // ── Current user's overall rank ──
-  const overallSorted = sortEntries(allEntries, "karmaScore");
-  const myOverallIdx = currentLogin
-    ? overallSorted.findIndex(
-        (e) => e.username.toLowerCase() === currentLogin
-      )
-    : -1;
-  const myEntry = myOverallIdx >= 0 ? overallSorted[myOverallIdx] : null;
-  const myTopCatKey = myEntry ? getTopCategory(myEntry) : null;
-  const myTopCatInfo = myTopCatKey ? CATEGORY_LABELS[myTopCatKey] : null;
-
   return (
-    <div
-      className="min-h-screen bg-gh-bg text-gh-text"
-      style={{ paddingBottom: myEntry ? "3.5rem" : 0 }}
-    >
+    <div className="min-h-screen bg-gh-bg text-gh-text">
       {/* ── Navigation ── */}
       <motion.nav
         className="h-14 border-b border-gh-border bg-gh-surface px-6 flex items-center justify-between sticky top-0 z-40"
@@ -358,42 +336,12 @@ export default function LeaderboardPage() {
         </Link>
 
         <div className="flex items-center gap-6">
-          {session ? (
-            <>
-              <Link
-                href="/dashboard"
-                className="font-mono text-xs text-gh-muted hover:text-gh-text transition-colors"
-              >
-                Dashboard
-              </Link>
-              <div className="flex items-center gap-2.5">
-                {session.user?.image && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={session.user.image}
-                    alt="avatar"
-                    className="w-8 h-8 rounded-full border border-gh-border"
-                  />
-                )}
-                <span className="font-mono text-xs text-gh-muted hidden sm:block">
-                  {currentLogin || session.user?.name}
-                </span>
-              </div>
-              <button
-                onClick={() => signOut({ callbackUrl: "/" })}
-                className="font-mono text-xs text-gh-muted hover:text-rose transition-colors"
-              >
-                Sign out
-              </button>
-            </>
-          ) : (
-            <Link
-              href="/dashboard"
-              className="font-mono text-xs text-amber hover:text-amber/80 transition-colors"
-            >
-              Sign in →
-            </Link>
-          )}
+          <Link
+            href="/"
+            className="font-mono text-xs text-gh-muted hover:text-gh-text transition-colors"
+          >
+            Back to home
+          </Link>
         </div>
       </motion.nav>
 
@@ -481,9 +429,6 @@ export default function LeaderboardPage() {
             <AnimatePresence mode="popLayout" key={listKey}>
               {sorted.map((entry, index) => {
                 const rank = index + 1;
-                const isCurrent =
-                  !!currentLogin &&
-                  entry.username.toLowerCase() === currentLogin;
                 return (
                   <LeaderboardRow
                     key={entry.username}
@@ -491,9 +436,9 @@ export default function LeaderboardPage() {
                     index={index}
                     rank={rank}
                     sortKey={sortKey}
-                    isCurrentUser={isCurrent}
+                    isCurrentUser={false}
                     onClick={() =>
-                      router.push(`/dashboard?view=${entry.username}`)
+                      router.push(`/dashboard?username=${entry.username}`)
                     }
                   />
                 );
@@ -529,39 +474,6 @@ export default function LeaderboardPage() {
           </span>
         </motion.div>
       </main>
-
-      {/* ── Sticky current-user rank bar ── */}
-      <AnimatePresence>
-        {myEntry && myTopCatInfo && (
-          <motion.div
-            className="fixed bottom-0 left-0 right-0 z-50"
-            initial={{ y: 68 }}
-            animate={{ y: 0 }}
-            exit={{ y: 68 }}
-            transition={{ type: "spring", stiffness: 260, damping: 28, delay: 0.7 }}
-          >
-            <div
-              className="flex items-center justify-between px-6 py-3 font-mono text-sm font-bold"
-              style={{ background: "#f0a500", color: "#0d1117" }}
-            >
-              <span>
-                You are ranked{" "}
-                <span style={{ fontSize: "16px" }}>#{myOverallIdx + 1}</span>{" "}
-                globally
-              </span>
-              <span className="hidden sm:block">
-                Your score:{" "}
-                <span style={{ fontSize: "16px" }}>{myEntry.karmaScore}</span>
-                <span className="font-normal text-xs opacity-60">/1000</span>
-              </span>
-              <span>
-                Top category: {myTopCatInfo.label}{" "}
-                <span style={{ fontSize: "16px" }}>{myTopCatInfo.emoji}</span>
-              </span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

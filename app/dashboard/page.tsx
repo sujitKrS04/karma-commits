@@ -1,7 +1,7 @@
 "use client";
 
+import { Suspense } from "react";
 import { useEffect, useState, useCallback } from "react";
-import { useSession, signOut } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, animate } from "framer-motion";
 import Link from "next/link";
@@ -575,11 +575,10 @@ function PassportSection({ passport }: { passport: KarmaPassport }) {
 
 // ─── Main Dashboard Page ──────────────────────────────────────────────────────
 
-export default function DashboardPage() {
-  const { data: session, status } = useSession();
+function DashboardPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const viewUsername = searchParams.get("view") ?? null; // read-only view mode
+  const username = searchParams.get("username") ?? null;
 
   const [passport, setPassport] = useState<KarmaPassport | null>(null);
   const [rawData, setRawData] = useState<ContributionData | null>(null);
@@ -588,22 +587,21 @@ export default function DashboardPage() {
   const [isRateLimited, setIsRateLimited] = useState(false);
   const [isNewAccount, setIsNewAccount] = useState(false);
 
+  // Redirect to home if no username is provided
   useEffect(() => {
-    if (status === "unauthenticated") {
+    if (!username) {
       router.push("/");
     }
-  }, [status, router]);
+  }, [username, router]);
 
   const loadData = useCallback(async () => {
-    if (status !== "authenticated") return;
+    if (!username) return;
     try {
       setLoading(true);
       setError(null);
       setIsRateLimited(false);
       setIsNewAccount(false);
-      const url = viewUsername
-        ? `/api/github?username=${encodeURIComponent(viewUsername)}`
-        : "/api/github";
+      const url = `/api/github?username=${encodeURIComponent(username)}`;
       const res = await fetch(url);
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
@@ -638,21 +636,18 @@ export default function DashboardPage() {
     } finally {
       setLoading(false);
     }
-  }, [status, viewUsername]);
+  }, [username]);
 
   useEffect(() => { loadData(); }, [loadData]);
 
-  if (status === "loading" || loading) return <DashboardSkeleton />;
-  if (!session) return null;
+  if (loading) return <DashboardSkeleton />;
 
   if (isRateLimited) {
     return <RateLimitCountdown onRetry={() => { setIsRateLimited(false); loadData(); }} />;
   }
 
   if (isNewAccount) {
-    const displayName =
-      viewUsername ?? session?.login ?? session?.user?.name ?? "you";
-    return <NewAccountNotice username={displayName} />;
+    return <NewAccountNotice username={username ?? "you"} />;
   }
 
   if (error) {
@@ -674,10 +669,6 @@ export default function DashboardPage() {
 
   if (!passport || !rawData) return null;
 
-  const isViewMode = !!viewUsername;
-  // The authenticated user's session login (not the viewed profile)
-  const sessionLogin = session?.login ?? session?.user?.name ?? "";
-
   return (
     <div className="min-h-screen bg-gh-bg text-gh-text">
       {/* ── Navigation ── */}
@@ -696,90 +687,30 @@ export default function DashboardPage() {
         </Link>
 
         <div className="flex items-center gap-6">
-          {isViewMode ? (
-            <Link
-              href="/leaderboard"
-              className="font-mono text-xs text-gh-muted hover:text-gh-text transition-colors flex items-center gap-1.5"
-            >
-              <ArrowLeft size={12} />
-              Leaderboard
-            </Link>
-          ) : (
-            <Link
-              href="/leaderboard"
-              className="font-mono text-xs text-gh-muted hover:text-gh-text transition-colors flex items-center gap-1.5"
-            >
-              <Trophy size={12} />
-              Leaderboard
-            </Link>
-          )}
-
-          {/* ✦ AI Review link — only shown when logged in as own profile */}
-          {!isViewMode && (
-            <Link
-              href="/ai-review"
-              className="font-mono text-xs transition-colors flex items-center gap-1"
-              style={{ color: "#f0a500" }}
-              title="AI-powered code quality analysis"
-            >
-              <SparkleIcon />
-              AI Review
-            </Link>
-          )}
-
-          <div className="flex items-center gap-2.5">
-            {/* Always show the viewer's own avatar */}
-            {session?.user?.image && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={session.user.image}
-                alt="avatar"
-                className="w-8 h-8 rounded-full border border-gh-border"
-                loading="lazy"
-              />
-            )}
-            <span className="font-mono text-xs text-gh-muted">{sessionLogin}</span>
-          </div>
+          <Link
+            href="/leaderboard"
+            className="font-mono text-xs text-gh-muted hover:text-gh-text transition-colors flex items-center gap-1.5"
+          >
+            <Trophy size={12} />
+            Leaderboard
+          </Link>
 
           <button
-            onClick={() => signOut({ callbackUrl: "/" })}
-            className="font-mono text-xs text-gh-muted hover:text-rose transition-colors"
+            onClick={() => username && router.push(`/ai-review?username=${encodeURIComponent(username)}`)}
+            className="font-mono text-xs text-amber hover:text-amber/80 transition-colors flex items-center gap-1.5"
           >
-            Sign out
+            <span>✦ AI Review</span>
           </button>
+
+          <Link
+            href="/"
+            className="font-mono text-xs text-gh-muted hover:text-gh-text transition-colors flex items-center gap-1.5"
+          >
+            <ArrowLeft size={12} />
+            Back to home
+          </Link>
         </div>
       </motion.nav>
-
-      {/* ── View-mode banner ── */}
-      {isViewMode && (
-        <motion.div
-          className="border-b border-gh-border px-6 py-2.5 flex items-center gap-3"
-          style={{ background: "rgba(16, 185, 129, 0.06)" }}
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <Eye size={13} className="text-emerald flex-shrink-0" />
-          <span className="font-mono text-xs" style={{ color: "#10b981" }}>
-            Viewing public profile of{" "}
-            <a
-              href={`https://github.com/${viewUsername}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-bold hover:underline"
-            >
-              @{viewUsername}
-            </a>
-            {" "}— read-only
-          </span>
-          <Link
-            href="/dashboard"
-            className="ml-auto font-mono text-xs text-gh-muted hover:text-gh-text transition-colors"
-          >
-            ← My Dashboard
-          </Link>
-        </motion.div>
-      )}
 
       {/* ── Main content ── */}
       <main className="max-w-[1400px] mx-auto px-6 py-8">
@@ -808,9 +739,17 @@ export default function DashboardPage() {
           </motion.div>
         </div>
 
-        {/* ── Passport Card — full width below main grid (own profile only) ── */}
-        {!isViewMode && <PassportSection passport={passport} />}
+        {/* ── Passport Card ── */}
+        <PassportSection passport={passport} />
       </main>
     </div>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gh-bg text-gh-text" />}>
+      <DashboardPageContent />
+    </Suspense>
   );
 }

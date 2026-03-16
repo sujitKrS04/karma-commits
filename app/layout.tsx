@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions";
-import SessionProvider from "@/components/ui/SessionProvider";
 import CustomCursor from "@/components/ui/CustomCursor";
 import "./globals.css";
 
-const SITE_URL = process.env.NEXTAUTH_URL ?? "https://karma-commits.vercel.app";
+const SITE_URL = "https://karma-commits.vercel.app";
 
 export const metadata: Metadata = {
   title: "Karma Commits — Your GitHub OSS Reputation Passport",
@@ -57,14 +54,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession(authOptions);
-
   return (
     <html lang="en" className="dark">
       <body className="font-sans antialiased bg-gh-bg text-gh-text min-h-screen">
-        <SessionProvider session={session}>
-          {children}
-        </SessionProvider>
+        {children}
         <CustomCursor />
       </body>
     </html>

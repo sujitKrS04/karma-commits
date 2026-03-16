@@ -1,10 +1,8 @@
 // ─── /api/ai-review — Phase 7 ─────────────────────────────────────────────────
-// GET: Returns an AI-powered code review for the authenticated user (or ?username=xxx)
+// GET: Returns an AI-powered code review for a given username
 // Never exposes GROQ_API_KEY to the client.
 
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/authOptions";
 import { fetchCodeSamples } from "@/lib/codeFetcher";
 import { generateCodeReview } from "@/lib/aiReviewer";
 import { type AIReview } from "@/lib/types";
@@ -14,26 +12,21 @@ const cache = new Map<string, { data: AIReview; timestamp: number }>();
 const CACHE_TTL_MS = 30 * 60 * 1000;
 
 export async function GET(request: Request) {
-  // Auth check
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
-  }
-
   const { searchParams } = new URL(request.url);
-  const username =
-    searchParams.get("username") ??
-    session.login ??
-    session.user?.name ??
-    "";
+  const username = searchParams.get("username");
 
   if (!username) {
     return NextResponse.json({ error: "NO_USERNAME" }, { status: 400 });
   }
 
-  const accessToken = session.accessToken;
-  if (!accessToken) {
-    return NextResponse.json({ error: "NO_ACCESS_TOKEN" }, { status: 401 });
+  // Get the GitHub token from environment
+  const githubToken = process.env.GITHUB_TOKEN;
+  if (!githubToken) {
+    console.error("[AI Review] GITHUB_TOKEN is not set in environment");
+    return NextResponse.json(
+      { error: "SERVER_ERROR" },
+      { status: 500 }
+    );
   }
 
   // Cache hit?
@@ -44,7 +37,7 @@ export async function GET(request: Request) {
 
   try {
     // 1. Fetch code
-    const payload = await fetchCodeSamples(username, accessToken);
+    const payload = await fetchCodeSamples(username, githubToken);
 
     if (!payload.repos.length) {
       return NextResponse.json({ error: "NO_REPOS" }, { status: 404 });

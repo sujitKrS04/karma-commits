@@ -204,19 +204,3 @@ export interface CodePayload {
     readme: string
   }>
 }
-
-// ─── NextAuth Session Extension ───────────────────────────────────────────────
-
-declare module "next-auth" {
-  interface Session {
-    accessToken?: string;
-    login?: string;
-  }
-}
-
-declare module "next-auth/jwt" {
-  interface JWT {
-    accessToken?: string;
-    login?: string;
-  }
-}
