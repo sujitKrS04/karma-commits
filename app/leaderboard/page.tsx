@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useState, useEffect, useCallback, memo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -278,7 +279,7 @@ const LeaderboardRow = memo(function LeaderboardRow({
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function LeaderboardPage() {
+function LeaderboardPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const username = searchParams.get("username") ?? "";
@@ -482,5 +483,13 @@ export default function LeaderboardPage() {
         </motion.div>
       </main>
     </div>
+  );
+}
+
+export default function LeaderboardPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gh-bg text-gh-text" />}>
+      <LeaderboardPageContent />
+    </Suspense>
   );
 }
