@@ -128,6 +128,7 @@ export default function LandingPage() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
+  const heroInputRef = useRef<HTMLInputElement>(null);
 
   const handleAnalyze = () => {
     const trimmed = username.trim();
@@ -137,6 +138,11 @@ export default function LandingPage() {
     setTimeout(() => {
       router.push(`/dashboard?username=${encodeURIComponent(trimmed)}`);
     }, 1500);
+  };
+
+  const scrollToHeroInput = () => {
+    heroInputRef.current?.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => heroInputRef.current?.focus(), 500);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -212,6 +218,7 @@ export default function LandingPage() {
             <div className="flex flex-col items-center gap-3 sm:gap-4">
               <div className="flex items-center gap-1.5 sm:gap-2 border border-gh-border bg-gh-bg px-2 py-2 w-full sm:w-auto max-w-sm">
                 <input
+                  ref={heroInputRef}
                   type="text"
                   placeholder="your github username"
                   value={username}
@@ -324,8 +331,13 @@ export default function LandingPage() {
               </h2>
             </div>
             <button
-              onClick={handleAnalyze}
-              disabled={!username.trim()}
+              onClick={() => {
+                if (username.trim()) {
+                  handleAnalyze();
+                } else {
+                  scrollToHeroInput();
+                }
+              }}
               className="btn-amber text-sm whitespace-nowrap"
             >
               See your score →
@@ -372,7 +384,16 @@ export default function LandingPage() {
             Join thousands of open source contributors who&apos;ve already claimed
             their Karma Passport.
           </p>
-          <button onClick={handleAnalyze} disabled={!username.trim()} className="btn-amber">
+          <button 
+            onClick={() => {
+              if (username.trim()) {
+                handleAnalyze();
+              } else {
+                scrollToHeroInput();
+              }
+            }} 
+            className="btn-amber"
+          >
             Analyze →
           </button>
         </motion.div>

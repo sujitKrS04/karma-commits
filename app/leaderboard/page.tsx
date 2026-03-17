@@ -1,7 +1,8 @@
 "use client";
 
+import { Suspense } from "react";
 import { useState, useEffect, useCallback, memo } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Trophy, ChevronRight } from "lucide-react";
@@ -278,8 +279,10 @@ const LeaderboardRow = memo(function LeaderboardRow({
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function LeaderboardPage() {
+function LeaderboardPageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const username = searchParams.get("username") ?? "";
 
   const [activeTab, setActiveTab] = useState<FilterTab>("Overall");
   const [sortKey, setSortKey] = useState<SortKey>("karmaScore");
@@ -342,24 +345,29 @@ export default function LeaderboardPage() {
           >
             Back to home
           </Link>
+          <Link
+            href={username ? `/dashboard?username=${encodeURIComponent(username)}` : "/"}
+            className="font-mono text-xs text-amber hover:text-amber/80 transition-colors"
+          >
+            {username ? "Back to Dashboard" : "Enter dashboard →"}
+          </Link>
         </div>
       </motion.nav>
 
       {/* ── Content ── */}
-      <main className="max-w-4xl mx-auto px-6 py-10">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
 
         {/* ── Page header ── */}
         <motion.div
-          className="mb-8"
+          className="mb-6 sm:mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
         >
-          <div className="flex items-center gap-3 mb-2">
+          <div className="flex items-center gap-2 sm:gap-3 mb-2">
             <Trophy size={20} className="text-amber flex-shrink-0" />
             <h1
-              className="font-mono font-bold tracking-[0.12em] uppercase"
-              style={{ fontSize: "22px" }}
+              className="font-mono font-bold tracking-[0.12em] uppercase text-lg sm:text-[22px]"
             >
               Karma Leaderboard
             </h1>
@@ -369,15 +377,15 @@ export default function LeaderboardPage() {
             codebases.
           </p>
           {!loading && (
-            <div className="mt-3 flex items-center gap-4 font-mono text-xs text-gh-muted">
+            <div className="mt-3 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 font-mono text-xs text-gh-muted">
               <span className="flex items-center gap-1.5">
                 <span
-                  className="w-2 h-2 rounded-full inline-block"
+                  className="w-2 h-2 rounded-full inline-block flex-shrink-0"
                   style={{ background: "#10b981" }}
                 />
                 {allEntries.length} contributors ranked
               </span>
-              <span>Scores computed in real-time</span>
+              <span className="hidden sm:block">Scores computed in real-time</span>
             </div>
           )}
         </motion.div>
@@ -475,5 +483,13 @@ export default function LeaderboardPage() {
         </motion.div>
       </main>
     </div>
+  );
+}
+
+export default function LeaderboardPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gh-bg text-gh-text" />}>
+      <LeaderboardPageContent />
+    </Suspense>
   );
 }

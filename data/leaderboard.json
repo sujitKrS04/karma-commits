@@ -832,9 +832,9 @@
     "username": "Md-Arif-hasnat99",
     "name": "Md Arif Hasnat",
     "avatarUrl": "https://avatars.githubusercontent.com/u/143590664?v=4",
-    "karmaScore": 152,
+    "karmaScore": 162,
     "categoryScores": {
-      "builder": 42,
+      "builder": 47,
       "reviewer": 2,
       "bugHunter": 8,
       "documentor": 0,
@@ -842,7 +842,7 @@
     },
     "rank": "Apprentice",
     "badges": [],
-    "updatedAt": "2026-03-16T09:29:33.582Z"
+    "updatedAt": "2026-03-17T15:28:59.885Z"
   },
   {
     "username": "AnkanSaha",
@@ -882,5 +882,106 @@
     "rank": "Apprentice",
     "badges": [],
     "updatedAt": "2026-03-16T09:41:05.324Z"
+  },
+  {
+    "username": "PurelyAditya",
+    "name": "Aditya Paul",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/184852988?v=4",
+    "karmaScore": 82,
+    "categoryScores": {
+      "builder": 41,
+      "reviewer": 0,
+      "bugHunter": 0,
+      "documentor": 0,
+      "mentor": 0
+    },
+    "rank": "Apprentice",
+    "badges": [],
+    "updatedAt": "2026-03-16T16:21:18.897Z"
+  },
+  {
+    "username": "ethereal19",
+    "name": "POULAMI NEOGI",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/184130432?v=4",
+    "karmaScore": 134,
+    "categoryScores": {
+      "builder": 22,
+      "reviewer": 0,
+      "bugHunter": 0,
+      "documentor": 0,
+      "mentor": 20
+    },
+    "rank": "Apprentice",
+    "badges": [
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-16T16:26:55.324Z"
+  },
+  {
+    "username": "awhyshll",
+    "name": "Madhuparna Ghosh",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/145034107?v=4",
+    "karmaScore": 125,
+    "categoryScores": {
+      "builder": 46,
+      "reviewer": 1,
+      "bugHunter": 20,
+      "documentor": 0,
+      "mentor": 0
+    },
+    "rank": "Apprentice",
+    "badges": [],
+    "updatedAt": "2026-03-16T16:29:59.621Z"
+  },
+  {
+    "username": "subhajit-006",
+    "name": "Subhajit Debnath",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/156021187?v=4",
+    "karmaScore": 138,
+    "categoryScores": {
+      "builder": 24,
+      "reviewer": 0,
+      "bugHunter": 0,
+      "documentor": 0,
+      "mentor": 20
+    },
+    "rank": "Apprentice",
+    "badges": [
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-16T16:35:54.763Z"
+  },
+  {
+    "username": "SANJOY-PAUL-0981",
+    "name": "SANJOY",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/139589867?v=4",
+    "karmaScore": 230,
+    "categoryScores": {
+      "builder": 84,
+      "reviewer": 0,
+      "bugHunter": 8,
+      "documentor": 0,
+      "mentor": 0
+    },
+    "rank": "Apprentice",
+    "badges": [
+      {
+        "id": "commit_storm",
+        "name": "Commit Storm",
+        "icon": "⚡",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-16T16:34:00.476Z"
   }
 ]

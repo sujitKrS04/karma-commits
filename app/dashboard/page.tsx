@@ -203,13 +203,13 @@ function ScoreHero({
 
   return (
     <motion.div
-      className="border border-gh-border bg-gh-surface p-6 hover:border-amber/40 transition-colors duration-200"
+      className="border border-gh-border bg-gh-surface p-4 sm:p-6 hover:border-amber/40 transition-colors duration-200"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
       {/* Identity row */}
-      <div className="flex items-start gap-4 mb-8">
+      <div className="flex items-start gap-3 sm:gap-4 mb-6 sm:mb-8">
         <div className="relative flex-shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -220,12 +220,12 @@ function ScoreHero({
           />
         </div>
         <div className="min-w-0 flex-1 pt-0.5">
-          <h1 className="font-mono font-bold text-xl text-gh-text truncate leading-none mb-1">
+          <h1 className="font-mono font-bold text-lg sm:text-xl text-gh-text truncate leading-none mb-1">
             {passport.user.name ?? passport.user.login}
           </h1>
-          <p className="font-mono text-sm text-gh-muted">@{passport.user.login}</p>
+          <p className="font-mono text-xs sm:text-sm text-gh-muted">@{passport.user.login}</p>
           {passport.user.bio && (
-            <p className="font-sans text-xs text-gh-muted mt-2 line-clamp-2 leading-relaxed">
+            <p className="font-sans text-xs text-gh-muted mt-1 sm:mt-2 line-clamp-2 leading-relaxed">
               {passport.user.bio}
             </p>
           )}
@@ -233,20 +233,20 @@ function ScoreHero({
       </div>
 
       {/* Giant score */}
-      <div className="flex items-end gap-3 mb-3">
+      <div className="flex items-end gap-2 sm:gap-3 mb-3">
         <span
-          className="font-mono font-bold leading-none tabular-nums"
-          style={{ fontSize: "96px", color: "#f0a500", lineHeight: 1 }}
+          className="font-mono font-bold leading-none tabular-nums text-5xl sm:text-7xl lg:text-[96px]"
+          style={{ color: "#f0a500", lineHeight: 1 }}
         >
           {displayScore}
         </span>
-        <span className="font-mono text-gh-muted text-2xl mb-3">/ 1000</span>
+        <span className="font-mono text-gh-muted text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-3">/ 1000</span>
       </div>
 
       {/* Rank pill */}
-      <div className="mb-8">
+      <div className="mb-6 sm:mb-8">
         <span
-          className="font-mono text-xs px-3 py-1.5 border font-bold tracking-widest"
+          className="font-mono text-xs px-2 sm:px-3 py-1 sm:py-1.5 border font-bold tracking-widest"
           style={{
             color: tierColor,
             borderColor: `${tierColor}50`,
@@ -258,23 +258,23 @@ function ScoreHero({
       </div>
 
       {/* Account stats row */}
-      <div className="flex items-center gap-0 pt-5 border-t border-gh-border">
+      <div className="flex items-center gap-0 pt-4 sm:pt-5 border-t border-gh-border">
         <div className="flex-1 text-center">
-          <div className="font-mono text-lg font-semibold text-gh-text">
+          <div className="font-mono text-base sm:text-lg font-semibold text-gh-text">
             {(rawData.followers).toLocaleString()}
           </div>
           <div className="font-mono text-xs text-gh-muted mt-0.5">Followers</div>
         </div>
-        <div className="w-px h-10 bg-gh-border" />
+        <div className="w-px h-8 sm:h-10 bg-gh-border" />
         <div className="flex-1 text-center">
-          <div className="font-mono text-lg font-semibold text-gh-text">
+          <div className="font-mono text-base sm:text-lg font-semibold text-gh-text">
             {rawData.publicRepos.toLocaleString()}
           </div>
           <div className="font-mono text-xs text-gh-muted mt-0.5">Public Repos</div>
         </div>
-        <div className="w-px h-10 bg-gh-border" />
+        <div className="w-px h-8 sm:h-10 bg-gh-border" />
         <div className="flex-1 text-center">
-          <div className="font-mono text-lg font-semibold text-gh-text">{memberSince}</div>
+          <div className="font-mono text-base sm:text-lg font-semibold text-gh-text">{memberSince}</div>
           <div className="font-mono text-xs text-gh-muted mt-0.5">Member Since</div>
         </div>
       </div>
@@ -289,16 +289,16 @@ function CategoryBreakdown({ passport }: { passport: KarmaPassport }) {
 
   return (
     <motion.div
-      className="border border-gh-border bg-gh-surface p-6 hover:border-amber/40 transition-colors duration-200"
+      className="border border-gh-border bg-gh-surface p-4 sm:p-6 hover:border-amber/40 transition-colors duration-200"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
     >
-      <h2 className="font-mono text-xs text-gh-muted tracking-widest uppercase mb-6">
+      <h2 className="font-mono text-xs text-gh-muted tracking-widest uppercase mb-4 sm:mb-6">
         Contribution Breakdown
       </h2>
 
-      <div className="space-y-5">
+      <div className="space-y-4 sm:space-y-5">
         {passport.score.dimensions.map((dim, i) => (
           <div
             key={dim.dimension}
@@ -306,12 +306,12 @@ function CategoryBreakdown({ passport }: { passport: KarmaPassport }) {
             onMouseEnter={() => setHovered(i)}
             onMouseLeave={() => setHovered(null)}
           >
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2.5">
-                <span className="text-base leading-none">{CATEGORY_ICONS[dim.label] ?? "📌"}</span>
-                <span className="font-mono text-sm text-gh-text">{dim.label}</span>
+            <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+              <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+                <span className="text-base leading-none flex-shrink-0">{CATEGORY_ICONS[dim.label] ?? "📌"}</span>
+                <span className="font-mono text-xs sm:text-sm text-gh-text truncate">{dim.label}</span>
               </div>
-              <span className="font-mono text-sm tabular-nums" style={{ color: dim.color }}>
+              <span className="font-mono text-xs sm:text-sm tabular-nums flex-shrink-0 ml-1" style={{ color: dim.color }}>
                 {dim.score}/100
               </span>
             </div>
@@ -330,7 +330,7 @@ function CategoryBreakdown({ passport }: { passport: KarmaPassport }) {
             {/* Tooltip on hover */}
             {hovered === i && (
               <motion.div
-                className="absolute right-0 -top-8 bg-gh-surface border border-gh-border px-3 py-1.5 z-10 pointer-events-none"
+                className="absolute right-0 -top-8 bg-gh-surface border border-gh-border px-2 sm:px-3 py-1 sm:py-1.5 z-10 pointer-events-none text-xs"
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.12 }}
@@ -354,15 +354,15 @@ function StatCard({ label, value, delay }: { label: string; value: number; delay
 
   return (
     <motion.div
-      className="border border-gh-border bg-gh-bg p-4 hover:border-amber/40 transition-colors duration-200"
+      className="border border-gh-border bg-gh-bg p-3 sm:p-4 hover:border-amber/40 transition-colors duration-200"
       initial={{ opacity: 0, scale: 0.92 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4, delay }}
     >
-      <div className="font-mono text-2xl font-bold text-amber tabular-nums">
+      <div className="font-mono text-xl sm:text-2xl font-bold text-amber tabular-nums">
         {display.toLocaleString()}
       </div>
-      <div className="font-sans text-xs text-gh-muted mt-1">{label}</div>
+      <div className="font-sans text-xs text-gh-muted mt-0.5 sm:mt-1">{label}</div>
     </motion.div>
   );
 }
@@ -378,7 +378,7 @@ function StatsGrid({ rawData }: { passport: KarmaPassport; rawData: Contribution
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2 sm:gap-3">
       {stats.map((s, i) => (
         <StatCard key={s.label} label={s.label} value={s.value} delay={0.3 + i * 0.06} />
       ))}
@@ -397,7 +397,7 @@ function RadarSection({ passport }: { passport: KarmaPassport }) {
 
   return (
     <motion.div
-      className="border border-gh-border bg-gh-surface p-6 hover:border-amber/40 transition-colors duration-200"
+      className="border border-gh-border bg-gh-surface p-4 sm:p-6 hover:border-amber/40 transition-colors duration-200"
       initial={{ opacity: 0, x: 20, scale: 0.97 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.15 }}
@@ -405,14 +405,14 @@ function RadarSection({ passport }: { passport: KarmaPassport }) {
       <h2 className="font-mono text-xs text-gh-muted tracking-widest uppercase mb-1">
         Karma Radar
       </h2>
-      <ResponsiveContainer width="100%" height={290}>
-        <RechartsRadarChart data={data} margin={{ top: 16, right: 36, bottom: 16, left: 36 }}>
+      <ResponsiveContainer width="100%" height={220} minHeight={220} className="sm:h-72">
+        <RechartsRadarChart data={data} margin={{ top: 12, right: 24, bottom: 12, left: 24 }}>
           <PolarGrid stroke="#30363d" />
           <PolarAngleAxis
             dataKey="subject"
             tick={{
               fill: "#e6edf3",
-              fontSize: 10,
+              fontSize: 9,
               fontFamily: "'JetBrains Mono', monospace",
             }}
           />
@@ -442,12 +442,12 @@ function BadgeSection({ passport }: { passport: KarmaPassport }) {
 
   return (
     <motion.div
-      className="border border-gh-border bg-gh-surface p-6 hover:border-amber/40 transition-colors duration-200"
+      className="border border-gh-border bg-gh-surface p-4 sm:p-6 hover:border-amber/40 transition-colors duration-200"
       initial={{ opacity: 0, x: 20, scale: 0.97 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.25 }}
     >
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex items-center justify-between mb-4 sm:mb-5">
         <h2 className="font-mono text-xs text-gh-muted tracking-widest uppercase">
           Earned Badges
         </h2>
@@ -546,12 +546,12 @@ function PassportSection({ passport }: { passport: KarmaPassport }) {
 
   return (
     <motion.div
-      className="border border-gh-border bg-gh-surface p-6 hover:border-amber/40 transition-colors duration-200"
+      className="border border-gh-border bg-gh-surface p-4 sm:p-6 hover:border-amber/40 transition-colors duration-200"
       initial={{ opacity: 0, y: 20, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.35 }}
     >
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mb-4 sm:mb-5">
         <h2 className="font-mono text-xs text-gh-muted tracking-widest uppercase">
           Your OSS Passport
         </h2>
@@ -673,26 +673,26 @@ function DashboardPageContent() {
     <div className="min-h-screen bg-gh-bg text-gh-text">
       {/* ── Navigation ── */}
       <motion.nav
-        className="h-14 border-b border-gh-border bg-gh-surface px-6 flex items-center justify-between sticky top-0 z-40"
+        className="h-14 border-b border-gh-border bg-gh-surface px-4 sm:px-6 flex items-center justify-between sticky top-0 z-40"
         initial={{ y: -56 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
       >
         <Link
           href="/"
-          className="font-mono font-bold text-amber tracking-[0.18em] text-sm uppercase"
+          className="font-mono font-bold text-amber tracking-[0.18em] text-xs sm:text-sm uppercase"
         >
           Karma Commits
           <span className="beta-tag">BETA</span>
         </Link>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3 sm:gap-6">
           <Link
-            href="/leaderboard"
+            href={username ? `/leaderboard?username=${encodeURIComponent(username)}` : "/leaderboard"}
             className="font-mono text-xs text-gh-muted hover:text-gh-text transition-colors flex items-center gap-1.5"
           >
             <Trophy size={12} />
-            Leaderboard
+            <span className="hidden sm:inline">Leaderboard</span>
           </Link>
 
           <button
@@ -713,11 +713,11 @@ function DashboardPageContent() {
       </motion.nav>
 
       {/* ── Main content ── */}
-      <main className="max-w-[1400px] mx-auto px-6 py-8">
-        <div className="grid grid-cols-5 gap-6 items-start">
-          {/* ── Left column 60% ── */}
+      <main className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6 items-start">
+          {/* ── Left column: 100% mobile, 60% desktop ── */}
           <motion.div
-            className="col-span-3 space-y-6"
+            className="col-span-1 lg:col-span-3 space-y-4 sm:space-y-6"
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -727,9 +727,9 @@ function DashboardPageContent() {
             <StatsGrid passport={passport} rawData={rawData} />
           </motion.div>
 
-          {/* ── Right column 40% ── */}
+          {/* ── Right column: 100% mobile, 40% desktop ── */}
           <motion.div
-            className="col-span-2 space-y-6"
+            className="col-span-1 lg:col-span-2 space-y-4 sm:space-y-6"
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}

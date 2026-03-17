@@ -33,73 +33,133 @@ const RANK_ICONS: Record<number, string> = {
 
 export default function LeaderboardTable() {
   return (
-    <div className="border border-gh-border bg-gh-surface overflow-hidden">
+    <div className="border border-gh-border bg-gh-surface overflow-x-auto">
       {/* Note banner */}
       <div className="border-b border-gh-border bg-amber/5 px-4 py-2.5 flex items-center gap-2">
-        <Trophy size={13} className="text-amber" />
-        <span className="font-mono text-xs text-amber">
+        <Trophy size={13} className="text-amber flex-shrink-0" />
+        <span className="font-mono text-xs text-amber truncate">
           Global leaderboard — Phase 2 will populate with live data
         </span>
       </div>
 
-      {/* Table header */}
-      <div className="grid grid-cols-[3rem_1fr_8rem_6rem_5rem] gap-4 px-5 py-3 border-b border-gh-border">
-        {["Rank", "Developer", "Score", "Tier", "Badges"].map((h) => (
-          <span key={h} className="font-mono text-xs text-gh-muted uppercase tracking-wider">
-            {h}
-          </span>
-        ))}
+      {/* Mobile: Card layout, Desktop: Table layout */}
+      <div className="block sm:hidden">
+        {/* Mobile view */}
+        <div className="divide-y divide-gh-border">
+          {PLACEHOLDER_ENTRIES.map((entry) => {
+            const tierColor = TIER_COLORS[entry.tier] ?? "#8b949e";
+            return (
+              <div
+                key={entry.rank}
+                className="px-4 py-4 space-y-3 transition-colors hover:bg-gh-bg"
+              >
+                {/* Rank + Name */}
+                <div className="flex items-start gap-3">
+                  <span className="font-mono text-lg font-bold flex-shrink-0">
+                    {RANK_ICONS[entry.rank] ?? `#${entry.rank}`}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-mono text-sm text-gh-text truncate">
+                      {entry.name}
+                    </p>
+                    <p className="font-mono text-xs text-gh-muted">@{entry.login}</p>
+                  </div>
+                </div>
+                
+                {/* Score and Tier on same line */}
+                <div className="flex items-center justify-between gap-2">
+                  <div>
+                    <span className="font-mono text-xs text-gh-muted block mb-0.5">Score</span>
+                    <span
+                      className="font-mono text-base font-bold"
+                      style={{ color: tierColor }}
+                    >
+                      {entry.score}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-mono text-xs text-gh-muted block mb-0.5">Tier</span>
+                    <span
+                      className="font-mono text-xs font-bold px-2 py-1 border"
+                      style={{ color: tierColor, borderColor: `${tierColor}40` }}
+                    >
+                      {entry.tier}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-mono text-xs text-gh-muted block mb-0.5">Badges</span>
+                    <span className="font-mono text-base font-bold text-gh-text">
+                      {entry.badges}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Rows */}
-      <div className="divide-y divide-gh-border">
-        {PLACEHOLDER_ENTRIES.map((entry) => {
-          const tierColor = TIER_COLORS[entry.tier] ?? "#8b949e";
+      {/* Desktop: Traditional table */}
+      <div className="hidden sm:block overflow-x-auto min-w-full">
+        {/* Table header */}
+        <div className="grid grid-cols-[3rem_1fr_8rem_6rem_5rem] gap-4 px-5 py-3 border-b border-gh-border sticky top-0 bg-gh-surface">
+          {["Rank", "Developer", "Score", "Tier", "Badges"].map((h) => (
+            <span key={h} className="font-mono text-xs text-gh-muted uppercase tracking-wider">
+              {h}
+            </span>
+          ))}
+        </div>
 
-          return (
-            <div
-              key={entry.rank}
-              className="grid grid-cols-[3rem_1fr_8rem_6rem_5rem] gap-4 px-5 py-3.5 items-center transition-colors hover:bg-gh-bg"
-            >
-              {/* Rank */}
-              <span className="font-mono text-sm text-gh-muted text-center">
-                {RANK_ICONS[entry.rank] ?? (
-                  <span className="text-gh-border">#{entry.rank}</span>
-                )}
-              </span>
+        {/* Rows */}
+        <div className="divide-y divide-gh-border">
+          {PLACEHOLDER_ENTRIES.map((entry) => {
+            const tierColor = TIER_COLORS[entry.tier] ?? "#8b949e";
 
-              {/* Developer */}
-              <div className="min-w-0">
-                <p className="font-mono text-sm text-gh-text truncate">
-                  {entry.name}
-                </p>
-                <p className="font-mono text-xs text-gh-muted">@{entry.login}</p>
+            return (
+              <div
+                key={entry.rank}
+                className="grid grid-cols-[3rem_1fr_8rem_6rem_5rem] gap-4 px-5 py-3.5 items-center transition-colors hover:bg-gh-bg"
+              >
+                {/* Rank */}
+                <span className="font-mono text-sm text-gh-muted text-center">
+                  {RANK_ICONS[entry.rank] ?? (
+                    <span className="text-gh-border">#{entry.rank}</span>
+                  )}
+                </span>
+
+                {/* Developer */}
+                <div className="min-w-0">
+                  <p className="font-mono text-sm text-gh-text truncate">
+                    {entry.name}
+                  </p>
+                  <p className="font-mono text-xs text-gh-muted">@{entry.login}</p>
+                </div>
+
+                {/* Score */}
+                <span
+                  className="font-mono text-sm font-bold"
+                  style={{ color: tierColor }}
+                >
+                  {entry.score}
+                  <span className="text-gh-muted font-normal text-xs">/1000</span>
+                </span>
+
+                {/* Tier */}
+                <span
+                  className="font-mono text-xs px-2 py-0.5 border w-fit"
+                  style={{ color: tierColor, borderColor: `${tierColor}40` }}
+                >
+                  {entry.tier}
+                </span>
+
+                {/* Badges */}
+                <span className="font-mono text-xs text-gh-muted text-center">
+                  {entry.badges}
+                </span>
               </div>
-
-              {/* Score */}
-              <span
-                className="font-mono text-sm font-bold"
-                style={{ color: tierColor }}
-              >
-                {entry.score}
-                <span className="text-gh-muted font-normal text-xs">/1000</span>
-              </span>
-
-              {/* Tier */}
-              <span
-                className="font-mono text-xs px-2 py-0.5 border w-fit"
-                style={{ color: tierColor, borderColor: `${tierColor}40` }}
-              >
-                {entry.tier}
-              </span>
-
-              {/* Badges */}
-              <span className="font-mono text-xs text-gh-muted text-center">
-                {entry.badges}
-              </span>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

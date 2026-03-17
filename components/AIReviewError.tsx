@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 // ─── AIReviewError — Phase 7 ──────────────────────────────────────────────────
@@ -50,6 +51,7 @@ interface AIReviewErrorProps {
 }
 
 export default function AIReviewError({ code, onRetry }: AIReviewErrorProps) {
+  const router = useRouter();
   const config = ERROR_CONFIG[code] ?? ERROR_CONFIG.default;
 
   return (
@@ -69,12 +71,12 @@ export default function AIReviewError({ code, onRetry }: AIReviewErrorProps) {
         </p>
 
         {config.cta === "back" ? (
-          <Link
-            href="/dashboard"
+          <button
+            onClick={() => router.back()}
             className="inline-block font-mono text-xs px-6 py-2.5 border border-gh-border text-amber hover:border-amber/60 transition-all"
           >
             ← Back to Dashboard
-          </Link>
+          </button>
         ) : (
           <div className="flex flex-col gap-3 items-center">
             <button
@@ -83,12 +85,12 @@ export default function AIReviewError({ code, onRetry }: AIReviewErrorProps) {
             >
               Try Again
             </button>
-            <Link
-              href="/dashboard"
+            <button
+              onClick={() => router.back()}
               className="font-mono text-xs text-gh-muted hover:text-gh-text transition-colors"
             >
               ← Back to Dashboard
-            </Link>
+            </button>
           </div>
         )}
       </div>

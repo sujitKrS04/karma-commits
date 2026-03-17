@@ -21,16 +21,16 @@ export default function RadarChart({ dimensions }: RadarChartProps) {
   }));
 
   return (
-    <div className="border border-gh-border bg-gh-surface p-6">
+    <div className="border border-gh-border bg-gh-surface p-4 sm:p-6">
       <span className="font-mono text-xs text-gh-muted tracking-widest uppercase">
         Radar View
       </span>
-      <ResponsiveContainer width="100%" height={300} className="mt-4">
-        <RechartsRadarChart data={data} margin={{ top: 10, right: 30, bottom: 10, left: 30 }}>
+      <ResponsiveContainer width="100%" height={250} className="mt-3 sm:mt-4">
+        <RechartsRadarChart data={data} margin={{ top: 10, right: 20, bottom: 10, left: 20 }}>
           <PolarGrid stroke="#30363d" />
           <PolarAngleAxis
             dataKey="subject"
-            tick={{ fill: "#8b949e", fontSize: 11, fontFamily: "'JetBrains Mono', monospace" }}
+            tick={{ fill: "#8b949e", fontSize: 10, fontFamily: "'JetBrains Mono', monospace" }}
           />
           <Radar
             name="Karma"
