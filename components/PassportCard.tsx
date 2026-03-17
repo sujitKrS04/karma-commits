@@ -74,7 +74,7 @@ function PassportCard({ passport, aiScore }: PassportCardProps) {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+    <div className="flex flex-col gap-3">
       {/* ── Keyframe injection ── */}
       <style>{`
         @keyframes kc-holo-drift {
@@ -82,23 +82,40 @@ function PassportCard({ passport, aiScore }: PassportCardProps) {
           100% { transform: translateX(380%)  skewX(-12deg); }
         }
         .kc-holo { animation: kc-holo-drift 30s linear infinite; }
+        
+        @media (max-width: 640px) {
+          .passport-card-wrapper {
+            transform: scale(0.5);
+            transform-origin: top center;
+            margin-bottom: -230px;
+          }
+        }
+        
+        @media (min-width: 641px) and (max-width: 1024px) {
+          .passport-card-wrapper {
+            transform: scale(0.75);
+            transform-origin: top center;
+            margin-bottom: -115px;
+          }
+        }
       `}</style>
 
       {/* ═══════════════════ EXPORTABLE CARD 800×460 ═══════════════════ */}
-      <div
-        ref={cardRef}
-        style={{
-          width: "800px",
-          height: "460px",
-          backgroundColor: "#161b22",
-          border: "2px solid #f0a500",
-          borderRadius: 0,
-          position: "relative",
-          overflow: "hidden",
-          display: "flex",
-          flexDirection: "column",
-          fontFamily: "'JetBrains Mono', Consolas, monospace",
-        }}
+      <div className="passport-card-wrapper flex justify-center">
+        <div
+          ref={cardRef}
+          style={{
+            width: "800px",
+            height: "460px",
+            backgroundColor: "#161b22",
+            border: "2px solid #f0a500",
+            borderRadius: 0,
+            position: "relative",
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
+            fontFamily: "'JetBrains Mono', Consolas, monospace",
+          }}
       >
         {/* Noise texture overlay — 3% opacity for depth */}
         <div
@@ -533,6 +550,7 @@ function PassportCard({ passport, aiScore }: PassportCardProps) {
           </span>
         </div>
       </div>
+      </div>
 
       {/* ═══════════════════ DOWNLOAD BUTTON ═══════════════════ */}
       <button
@@ -546,27 +564,19 @@ function PassportCard({ passport, aiScore }: PassportCardProps) {
           if (!downloading)
             (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#f0a500";
         }}
+        className="w-full px-4 py-3 sm:px-0 sm:py-2.5 flex items-center justify-center gap-2 font-mono text-xs sm:text-sm font-bold letter-spacing-wide rounded-none transition-colors duration-150"
         style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "8px",
-          width: "800px",
-          padding: "11px 0",
           backgroundColor: downloading ? "#21262d" : "#f0a500",
           color: downloading ? "#8b949e" : "#0d1117",
           border: "none",
-          borderRadius: 0,
-          fontFamily: "'JetBrains Mono', Consolas, monospace",
-          fontSize: "12px",
-          fontWeight: 700,
-          letterSpacing: "0.08em",
+          width: "100%",
+          maxWidth: "800px",
+          margin: "0 auto",
           cursor: downloading ? "not-allowed" : "pointer",
-          transition: "background-color 0.15s, color 0.15s",
         }}
       >
-        <Download size={13} />
-        {downloading ? "Downloading..." : "Download PNG"}
+        <Download size={downloading ? 14 : 16} className="flex-shrink-0" />
+        <span>{downloading ? "Downloading..." : "Download PNG"}</span>
       </button>
     </div>
   );

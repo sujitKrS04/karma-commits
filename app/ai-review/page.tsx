@@ -392,7 +392,7 @@ function AIReviewPageContent() {
   };
 
   // ── Loading state ────────────────────────────────────────────────────────────
-  if (status === "loading" || (loading && !error)) {
+  if (loading && !error) {
     return <LoadingScreen done={loadDone} />;
   }
 
@@ -401,6 +401,7 @@ function AIReviewPageContent() {
     return (
       <AIReviewError
         code={error}
+
         onRetry={() => fetchReview()}
       />
     );
@@ -424,7 +425,7 @@ function AIReviewPageContent() {
         </Link>
         <div className="flex items-center gap-6">
           <Link
-            href="/leaderboard"
+            href={username ? `/leaderboard?username=${encodeURIComponent(username)}` : "/leaderboard"}
             className="font-mono text-xs text-gh-muted hover:text-gh-text transition-colors"
           >
             Leaderboard
@@ -436,7 +437,7 @@ function AIReviewPageContent() {
             ✦ AI Review
           </Link>
           <Link
-            href="/dashboard"
+            href={username ? `/dashboard?username=${encodeURIComponent(username)}` : "/"}
             className="font-mono text-xs text-gh-muted hover:text-gh-text transition-colors"
           >
             ← Dashboard
@@ -730,12 +731,7 @@ function AIReviewPageContent() {
 
         {/* Right: Back link */}
         <div className="flex-1 flex justify-end">
-          <Link
-            href="/dashboard"
-            className="font-mono text-xs text-amber hover:underline"
-          >
-            ← Back to Dashboard
-          </Link>
+          {/* Back button removed - use nav dashboard link instead */}
         </div>
       </div>
     </div>
