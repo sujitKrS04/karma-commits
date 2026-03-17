@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { ArrowRight, GitPullRequest, Users, FileText, Cpu, Share2 } from "lucide-react";
+import { ArrowRight, GitPullRequest, Users, FileText, Cpu, Share2, Github } from "lucide-react";
 import LoadingScreen from "@/components/LoadingScreen";
 
 // ─── Animated Counter ─────────────────────────────────────────────────────────
@@ -151,34 +151,25 @@ export default function LandingPage() {
       {loading && <LoadingScreen message="Analyzing your GitHub profile..." />}
 
       {/* ── Nav ── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 border-b border-gh-border bg-gh-bg/90 backdrop-blur-sm">
-        <span className="font-mono font-bold text-amber tracking-tight text-lg">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-gh-border bg-gh-bg/90 backdrop-blur-sm">
+        <span className="font-mono font-bold text-amber tracking-tight text-sm sm:text-lg">
           karma<span className="text-gh-text">commits</span>
           <span className="beta-tag">BETA</span>
         </span>
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2 text-sm font-mono text-gh-muted border border-gh-border px-3 py-1.5">
-            <input
-              type="text"
-              placeholder="github username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              onKeyPress={handleKeyPress}
-              className="bg-transparent outline-none w-32 text-gh-text placeholder:text-gh-muted"
-            />
-            <button
-              onClick={handleAnalyze}
-              disabled={!username.trim()}
-              className="text-xs font-bold text-amber hover:text-amber/80 disabled:text-gh-muted transition-colors"
-            >
-              →
-            </button>
-          </div>
+        <div className="flex items-center gap-3 sm:gap-6">
+          <a
+            href="https://github.com/sujitKrS04/karma-commits"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gh-muted hover:text-gh-text transition-colors"
+          >
+            <Github size={24} />
+          </a>
         </div>
       </nav>
 
       {/* ── HERO ── */}
-      <section className="grid-bg relative flex flex-col items-center justify-center min-h-screen text-center px-6 pt-20">
+      <section className="grid-bg relative flex flex-col items-center justify-center min-h-screen text-center px-4 sm:px-6 pt-20">
         {/* Radial vignette over grid */}
         <div
           className="absolute inset-0 pointer-events-none z-[1]"
@@ -195,55 +186,55 @@ export default function LandingPage() {
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 border border-amber/30 bg-amber/5 text-amber font-mono text-xs px-3 py-1.5 mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber animate-pulse" />
+            <div className="inline-flex items-center gap-2 border border-amber/30 bg-amber/5 text-amber font-mono text-xs px-3 py-1.5 mb-6 sm:mb-8">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber animate-pulse flex-shrink-0" />
               Open Source Reputation Protocol
             </div>
 
             {/* Headline */}
             <h1 className="font-mono font-bold leading-tight mb-4">
-              <span className="block text-4xl sm:text-5xl md:text-6xl text-gh-text">
+              <span className="block text-3xl sm:text-5xl md:text-6xl text-gh-text">
                 Your GitHub profile shows what you built.
               </span>
-              <span className="block text-4xl sm:text-5xl md:text-6xl text-amber mt-2">
+              <span className="block text-3xl sm:text-5xl md:text-6xl text-amber mt-2 sm:mt-3">
                 Karma Commits shows who you are.
               </span>
             </h1>
 
             {/* Subtext */}
-            <p className="font-sans text-gh-muted text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-10">
+            <p className="font-sans text-gh-muted text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-8 sm:mb-10">
               The invisible labor of open source —{" "}
               <span className="text-gh-text">reviews, mentoring, docs, triage</span>{" "}
               — finally gets the credit it deserves.
             </p>
 
             {/* CTA */}
-            <div className="flex flex-col items-center gap-4">
-              <div className="flex items-center gap-2 border border-gh-border bg-gh-bg px-2 py-2">
+            <div className="flex flex-col items-center gap-3 sm:gap-4">
+              <div className="flex items-center gap-1.5 sm:gap-2 border border-gh-border bg-gh-bg px-2 py-2 w-full sm:w-auto max-w-sm">
                 <input
                   type="text"
                   placeholder="your github username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  className="bg-transparent outline-none text-gh-text placeholder:text-gh-muted font-mono text-sm px-3"
+                  className="bg-transparent outline-none text-gh-text placeholder:text-gh-muted font-mono text-xs sm:text-sm px-2 sm:px-3 flex-1 sm:flex-none"
                 />
                 <motion.button
                   onClick={handleAnalyze}
                   disabled={!username.trim()}
-                  className="btn-amber"
+                  className="btn-amber text-xs sm:text-sm px-3 sm:px-4 py-2"
                   whileTap={{ scale: 0.97 }}
                 >
                   <span>Analyze</span>
                   <ArrowRight
-                    size={18}
-                    className="transition-transform group-hover:translate-x-1"
+                    size={16}
+                    className="transition-transform group-hover:translate-x-1 hidden sm:block"
                   />
                 </motion.button>
               </div>
             </div>
 
-            <p className="mt-4 text-gh-muted text-xs font-mono">
+            <p className="mt-3 sm:mt-4 text-gh-muted text-xs font-mono">
               Public profiles only. No login required.
             </p>
           </motion.div>
@@ -258,7 +249,7 @@ export default function LandingPage() {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
-        <div className="max-w-5xl mx-auto px-6 py-10 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-10 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 text-center">
           {[
             { value: 2400000, suffix: "+", label: "contributions analyzed" },
             { value: 5, suffix: "", label: "reputation dimensions" },
@@ -273,9 +264,9 @@ export default function LandingPage() {
       </motion.section>
 
       {/* ── HOW IT WORKS ── */}
-      <section className="max-w-6xl mx-auto px-6 py-24">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
         <motion.div
-          className="text-center mb-14"
+          className="text-center mb-10 sm:mb-14"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -284,12 +275,12 @@ export default function LandingPage() {
           <span className="font-mono text-amber text-xs tracking-widest uppercase">
             How it works
           </span>
-          <h2 className="font-mono font-bold text-2xl sm:text-3xl mt-3 text-gh-text">
+          <h2 className="font-mono font-bold text-2xl sm:text-3xl md:text-4xl mt-2 sm:mt-3 text-gh-text">
             Three steps to your open source passport
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           {howItWorksCards.map((card, i) => (
             <motion.div
               key={i}
