@@ -61,6 +61,12 @@ function PassportCard({ passport, aiScore }: PassportCardProps) {
         cacheBust: true,
         pixelRatio: 2,
         backgroundColor: "#161b22",
+        width: 800,
+        height: 460,
+        style: {
+          transform: "scale(1)",
+          margin: "0"
+        }
       });
       const link = document.createElement("a");
       link.download = `karma-commits-${passport.user.login}.png`;
@@ -85,23 +91,25 @@ function PassportCard({ passport, aiScore }: PassportCardProps) {
         
         @media (max-width: 640px) {
           .passport-card-wrapper {
-            transform: scale(0.5);
-            transform-origin: top center;
-            margin-bottom: -230px;
+            transform: scale(0.42);
+            transform-origin: top left;
+            margin-bottom: -266px;
+            margin-right: -464px;
           }
         }
         
         @media (min-width: 641px) and (max-width: 1024px) {
           .passport-card-wrapper {
             transform: scale(0.75);
-            transform-origin: top center;
+            transform-origin: top left;
             margin-bottom: -115px;
+            margin-right: -200px;
           }
         }
       `}</style>
 
       {/* ═══════════════════ EXPORTABLE CARD 800×460 ═══════════════════ */}
-      <div className="passport-card-wrapper flex justify-center">
+      <div className="passport-card-wrapper flex justify-start sm:justify-center">
         <div
           ref={cardRef}
           style={{

@@ -455,7 +455,7 @@ function AIReviewPageContent() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <div className="grid grid-cols-3 gap-0 divide-x divide-gh-border">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 divide-y md:divide-y-0 md:divide-x divide-gh-border">
 
             {/* LEFT: Identity */}
             <div className="p-6 flex items-center gap-4">
@@ -530,7 +530,7 @@ function AIReviewPageContent() {
           <h2 className="font-mono text-xs text-gh-muted tracking-widest uppercase mb-4">
             Dimension Breakdown
           </h2>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {review.dimensions.map((dim, i) => (
               <DimensionCard key={dim.id} dim={dim} delay={i * 150} />
             ))}
@@ -538,7 +538,7 @@ function AIReviewPageContent() {
         </div>
 
         {/* ══════ STRENGTHS vs IMPROVEMENTS ══════ */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Superpowers */}
           <motion.div
             className="p-6"
@@ -667,7 +667,7 @@ function AIReviewPageContent() {
 
       {/* ══════ STICKY BOTTOM ACTION BAR ══════ */}
       <div
-        className="fixed bottom-0 left-0 right-0 z-50 flex items-center px-6"
+        className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-6 gap-2"
         style={{
           height: "52px",
           backgroundColor: "#161b22",
@@ -675,7 +675,7 @@ function AIReviewPageContent() {
         }}
       >
         {/* Left: Groq branding */}
-        <div className="flex items-center gap-2 flex-1">
+        <div className="flex items-center gap-2 shrink-0">
           <span
             className="font-mono font-bold text-sm"
             style={{
@@ -687,15 +687,18 @@ function AIReviewPageContent() {
           >
             GQ
           </span>
-          <span className="font-sans text-xs text-gh-muted">
+          <span className="font-sans text-xs text-gh-muted whitespace-nowrap hidden sm:inline">
             Powered by Groq
           </span>
         </div>
 
-        {/* Center: Toggle */}
-        <div className="flex items-center gap-3 flex-1 justify-center">
-          <span className="font-mono text-xs text-gh-muted">
+        {/* Right: Toggle */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <span className="font-mono text-xs text-gh-muted hidden sm:inline">
             Show AI Score on Passport Card
+          </span>
+          <span className="font-mono text-xs text-gh-muted sm:hidden whitespace-nowrap">
+            Add to Card
           </span>
           <button
             onClick={() => handleTogglePassport(!aiScoreOnPassport)}
@@ -727,11 +730,6 @@ function AIReviewPageContent() {
           {aiScoreOnPassport && (
             <span className="font-mono text-xs text-amber">ON</span>
           )}
-        </div>
-
-        {/* Right: Back link */}
-        <div className="flex-1 flex justify-end">
-          {/* Back button removed - use nav dashboard link instead */}
         </div>
       </div>
     </div>

@@ -983,5 +983,34 @@
       }
     ],
     "updatedAt": "2026-03-16T16:34:00.476Z"
+  },
+  {
+    "username": "sshiwangi",
+    "name": "Shiwangi Kumari",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/77545230?v=4",
+    "karmaScore": 332,
+    "categoryScores": {
+      "builder": 94,
+      "reviewer": 4,
+      "bugHunter": 28,
+      "documentor": 0,
+      "mentor": 20
+    },
+    "rank": "Contributor",
+    "badges": [
+      {
+        "id": "commit_storm",
+        "name": "Commit Storm",
+        "icon": "⚡",
+        "earned": true
+      },
+      {
+        "id": "globetrotter",
+        "name": "Globetrotter",
+        "icon": "🌍",
+        "earned": true
+      }
+    ],
+    "updatedAt": "2026-03-23T04:18:56.452Z"
   }
 ]
