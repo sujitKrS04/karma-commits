@@ -151,7 +151,7 @@ const LeaderboardRow = memo(function LeaderboardRow({
       exit={{ opacity: 0, scale: 0.97 }}
       transition={{ duration: 0.28, delay: Math.min(index * 0.045, 0.6) }}
       onClick={onClick}
-      className="group flex items-center gap-4 px-5 py-3.5 cursor-pointer
+      className="group flex items-center gap-2 sm:gap-4 px-3 sm:px-5 py-3.5 cursor-pointer
                  border-b border-gh-border last:border-b-0
                  hover:brightness-[1.08] transition-all duration-150"
       style={{
@@ -211,7 +211,7 @@ const LeaderboardRow = memo(function LeaderboardRow({
             {pill.label}
           </span>
         </div>
-        <span className="font-mono text-xs text-gh-muted mt-0.5 block">
+        <span className="font-mono text-xs text-gh-muted mt-0.5 inline-block truncate max-w-[120px] sm:max-w-none">
           @{entry.username}
         </span>
       </div>
@@ -325,7 +325,7 @@ function LeaderboardPageContent() {
     <div className="min-h-screen bg-gh-bg text-gh-text">
       {/* ── Navigation ── */}
       <motion.nav
-        className="h-14 border-b border-gh-border bg-gh-surface px-6 flex items-center justify-between sticky top-0 z-40"
+        className="h-14 border-b border-gh-border bg-gh-surface px-4 sm:px-6 flex items-center justify-between sticky top-0 z-40"
         initial={{ y: -56 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}

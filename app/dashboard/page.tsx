@@ -566,7 +566,7 @@ function PassportSection({ passport }: { passport: KarmaPassport }) {
       </div>
 
       {/* Passport Card — 800×460px, horizontally scrollable if needed */}
-      <div className="overflow-x-auto">
+      <div className="overflow-hidden w-full overflow-x-auto sm:overflow-visible">
         <PassportCard passport={passport} aiScore={aiScore} />
       </div>
     </motion.div>
