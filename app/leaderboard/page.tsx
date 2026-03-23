@@ -211,7 +211,7 @@ const LeaderboardRow = memo(function LeaderboardRow({
             {pill.label}
           </span>
         </div>
-        <span className="font-mono text-xs text-gh-muted mt-0.5 block truncate max-w-[120px] sm:max-w-none">
+        <span className="font-mono text-xs text-gh-muted mt-0.5 inline-block truncate max-w-[120px] sm:max-w-none">
           @{entry.username}
         </span>
       </div>
