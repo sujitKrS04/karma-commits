@@ -1,4 +1,4 @@
-﻿# ⚡ Karma Commits
+# ⚡ Karma Commits
 
 > **Your GitHub OSS Reputation Passport** — Beyond commits. Track reviews, mentoring, docs, and bug triage. Get your open-source reputation score AND an AI-powered code review.
 
@@ -47,6 +47,15 @@
 
 ---
 
+## 🚀 Recent Updates
+
+- **Scorecard Popup Modal:** A newly designed modal to view your Passport Card, triggered seamlessly from the dashboard navigation via the "👁️ Passport Card" button.
+- **Dynamic Social Sharing:** Share your Karma Score directly to X (Twitter) or LinkedIn using dynamically generated share URLs.
+- **Improved UI Cleanliness:** The Dashboard has been decluttered by moving the static Passport preview into its dedicated popup modal.
+- **Consistent Radar Imagery:** Labels have been added to the Passport Card radar for perfect parity with the Dashboard's visualization.
+
+---
+
 ## 🎯 User Flow
 
 1. **Home Page** → Enter any GitHub username (no login required)
@@ -77,7 +86,7 @@
 |---|---|---|
 | 🌱 Seed | 0–99 | Apprentice |
 | 🌿 Sprout | 100–249 | Apprentice |
-| 🌱 Contributor | 250–449 | Contributor |
+| 🪴 Contributor | 250–449 | Contributor |
 | ⚙️ Maintainer | 450–649 | Maintainer |
 | ⚡ Luminary | 650–799 | Veteran |
 | 👑 Legend | 800–1000 | Legend |
