@@ -543,7 +543,18 @@ function DashboardPageContent() {
       const showAi = localStorage.getItem("kc_ai_on_passport") === "true";
       if (showAi) {
         const raw = localStorage.getItem("kc_ai_score");
-        if (raw) setAiScore(JSON.parse(raw));
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          // Validate shape before setting state
+          if (
+            parsed &&
+            typeof parsed === "object" &&
+            typeof parsed.score === "number" &&
+            typeof parsed.grade === "string"
+          ) {
+            setAiScore(parsed);
+          }
+        }
       }
     } catch {
       // ignore
