@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Download, Twitter, Linkedin } from "lucide-react";
+import { X, Download, Twitter, Linkedin, AlertCircle } from "lucide-react";
 import PassportCard from "@/components/PassportCard";
 import { type KarmaPassport } from "@/lib/types";
 import { toPng } from "html-to-image";
@@ -17,6 +17,7 @@ interface ScorecardPopupProps {
 export default function ScorecardPopup({ isOpen, onClose, passport, aiScore }: ScorecardPopupProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -28,10 +29,19 @@ export default function ScorecardPopup({ isOpen, onClose, passport, aiScore }: S
     return () => window.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
 
+  // Clear error after 5s
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(null), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
   const handleDownload = async () => {
     if (!cardRef.current) return;
     try {
       setDownloading(true);
+      setError(null);
       const dataUrl = await toPng(cardRef.current, {
         cacheBust: true,
         backgroundColor: "#0d1117", // gh-bg
@@ -43,6 +53,7 @@ export default function ScorecardPopup({ isOpen, onClose, passport, aiScore }: S
       link.click();
     } catch (err) {
       console.error("Failed to generate PNG", err);
+      setError(err instanceof Error ? err.message : "Failed to generate image. Please try again.");
     } finally {
       setDownloading(false);
     }
@@ -94,6 +105,21 @@ export default function ScorecardPopup({ isOpen, onClose, passport, aiScore }: S
                   <PassportCard passport={passport} aiScore={aiScore} />
                 </div>
               </div>
+
+              {/* Error Feedback */}
+              <AnimatePresence>
+                {error && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="flex items-center justify-center gap-2 mt-4 text-rose text-xs font-mono"
+                  >
+                    <AlertCircle size={14} />
+                    <span>{error}</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
