@@ -3,7 +3,7 @@
 import { useRef, useState, memo } from "react";
 import { toPng } from "html-to-image";
 import { Download } from "lucide-react";
-import { Radar, RadarChart, PolarGrid } from "recharts";
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis } from "recharts";
 import { type KarmaPassport } from "@/lib/types";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -350,15 +350,23 @@ function PassportCard({ passport, aiScore }: PassportCardProps) {
                 </div>
               </div>
 
-              {/* Mini radar — 120×120, no labels, amber fill */}
-              <div style={{ flexShrink: 0, lineHeight: 0 }}>
+              {/* Radar — with labels, amber fill */}
+              <div style={{ flexShrink: 0, lineHeight: 0, marginLeft: "auto" }}>
                 <RadarChart
-                  width={120}
-                  height={120}
+                  width={200}
+                  height={150}
                   data={radarData}
-                  margin={{ top: 6, right: 6, bottom: 6, left: 6 }}
+                  margin={{ top: 12, right: 28, bottom: 12, left: 28 }}
                 >
                   <PolarGrid stroke="#30363d" strokeOpacity={0.9} />
+                  <PolarAngleAxis
+                    dataKey="subject"
+                    tick={{
+                      fill: "#e6edf3",
+                      fontSize: 8,
+                      fontFamily: "'JetBrains Mono', monospace",
+                    }}
+                  />
                   <Radar
                     name="score"
                     dataKey="value"
@@ -366,7 +374,7 @@ function PassportCard({ passport, aiScore }: PassportCardProps) {
                     fillOpacity={0.22}
                     stroke="#f0a500"
                     strokeWidth={1.5}
-                    dot={false}
+                    dot={{ fill: "#f0a500", r: 2 }}
                     isAnimationActive={false}
                   />
                 </RadarChart>

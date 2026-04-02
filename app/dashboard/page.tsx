@@ -15,6 +15,7 @@ import {
 } from "recharts";
 import DashboardSkeleton from "@/components/DashboardSkeleton";
 import PassportCard from "@/components/PassportCard";
+import ScorecardPopup from "@/components/ScorecardPopup";
 import { type KarmaPassport, type ContributionData } from "@/lib/types";
 import { buildPassportFromContribution } from "@/lib/karmaEngine";
 
@@ -520,59 +521,6 @@ function BadgeSection({ passport }: { passport: KarmaPassport }) {
   );
 }
 
-// ─── PassportSection ──────────────────────────────────────────────────────────
-
-function PassportSection({ passport }: { passport: KarmaPassport }) {
-  const tierLabelText =
-    (TIER_LABEL[passport.score.tier] ?? "APPRENTICE").replace(/^\S+\s/, "");
-
-  const tweetText = encodeURIComponent(
-    `My open-source Karma Score: ${passport.score.total}/1000 (${tierLabelText}) via @KarmaCommits — https://karma-commits.vercel.app`
-  );
-
-  // Load AI score from localStorage if user toggled it on from the AI Review page
-  const [aiScore, setAiScore] = useState<{ score: number; grade: string } | undefined>(undefined);
-  useEffect(() => {
-    try {
-      const showAi = localStorage.getItem("kc_ai_on_passport") === "true";
-      if (showAi) {
-        const raw = localStorage.getItem("kc_ai_score");
-        if (raw) setAiScore(JSON.parse(raw));
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
-
-  return (
-    <motion.div
-      className="border border-gh-border bg-gh-surface p-4 sm:p-6 hover:border-amber/40 transition-colors duration-200"
-      initial={{ opacity: 0, y: 20, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.5, delay: 0.35 }}
-    >
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mb-4 sm:mb-5">
-        <h2 className="font-mono text-xs text-gh-muted tracking-widest uppercase">
-          Your OSS Passport
-        </h2>
-        <a
-          href={`https://twitter.com/intent/tweet?text=${tweetText}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-mono text-xs text-gh-muted hover:text-amber transition-colors"
-        >
-          Share on X →
-        </a>
-      </div>
-
-      {/* Passport Card — 800×460px, horizontally scrollable if needed */}
-      <div className="overflow-hidden w-full overflow-x-auto sm:overflow-visible">
-        <PassportCard passport={passport} aiScore={aiScore} />
-      </div>
-    </motion.div>
-  );
-}
-
 // ─── Main Dashboard Page ──────────────────────────────────────────────────────
 
 function DashboardPageContent() {
@@ -586,6 +534,32 @@ function DashboardPageContent() {
   const [error, setError] = useState<string | null>(null);
   const [isRateLimited, setIsRateLimited] = useState(false);
   const [isNewAccount, setIsNewAccount] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [aiScore, setAiScore] = useState<{ score: number; grade: string } | undefined>(undefined);
+
+  useEffect(() => {
+    try {
+      const showAi = localStorage.getItem("kc_ai_on_passport") === "true";
+      if (showAi) {
+        const raw = localStorage.getItem("kc_ai_score");
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          // Validate shape before setting state
+          if (
+            parsed &&
+            typeof parsed === "object" &&
+            typeof parsed.score === "number" &&
+            typeof parsed.grade === "string"
+          ) {
+            setAiScore(parsed);
+          }
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
 
   // Redirect to home if no username is provided
   useEffect(() => {
@@ -687,6 +661,14 @@ function DashboardPageContent() {
         </Link>
 
         <div className="flex items-center gap-3 sm:gap-6">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="font-mono text-xs px-3 py-1.5 border border-amber/40 bg-amber/10 text-amber hover:bg-amber/20 hover:border-amber transition-all duration-300 flex items-center gap-1.5 shadow-[0_0_12px_rgba(240,165,0,0.15)] rounded hover:shadow-[0_0_16px_rgba(240,165,0,0.25)] ring-1 ring-amber/20"
+          >
+            <Eye size={12} className="animate-pulse" />
+            <span className="font-bold tracking-wide">Passport Card</span>
+          </button>
+
           <Link
             href={username ? `/leaderboard?username=${encodeURIComponent(username)}` : "/leaderboard"}
             className="font-mono text-xs text-gh-muted hover:text-gh-text transition-colors flex items-center gap-1.5"
@@ -738,10 +720,14 @@ function DashboardPageContent() {
             <BadgeSection passport={passport} />
           </motion.div>
         </div>
-
-        {/* ── Passport Card ── */}
-        <PassportSection passport={passport} />
       </main>
+
+      <ScorecardPopup
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        passport={passport}
+        aiScore={aiScore}
+      />
     </div>
   );
 }
