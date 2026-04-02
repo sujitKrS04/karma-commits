@@ -566,35 +566,8 @@ function PassportCard({ passport, aiScore }: PassportCardProps) {
           </span>
         </div>
       </div>
-      </div>
-
-      {/* ═══════════════════ DOWNLOAD BUTTON ═══════════════════ */}
-      <button
-        onClick={handleDownload}
-        disabled={downloading}
-        onMouseEnter={(e) => {
-          if (!downloading)
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#d49200";
-        }}
-        onMouseLeave={(e) => {
-          if (!downloading)
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#f0a500";
-        }}
-        className="w-full px-4 py-3 sm:px-0 sm:py-2.5 flex items-center justify-center gap-2 font-mono text-xs sm:text-sm font-bold letter-spacing-wide rounded-none transition-colors duration-150"
-        style={{
-          backgroundColor: downloading ? "#21262d" : "#f0a500",
-          color: downloading ? "#8b949e" : "#0d1117",
-          border: "none",
-          width: "100%",
-          maxWidth: "800px",
-          margin: "0 auto",
-          cursor: downloading ? "not-allowed" : "pointer",
-        }}
-      >
-        <Download size={downloading ? 14 : 16} className="flex-shrink-0" />
-        <span>{downloading ? "Downloading..." : "Download PNG"}</span>
-      </button>
     </div>
+  </div>
   );
 }
 

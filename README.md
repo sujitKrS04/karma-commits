@@ -1,4 +1,4 @@
-﻿# ⚡ Karma Commits
+# ⚡ Karma Commits
 
 > **Your GitHub OSS Reputation Passport** — Beyond commits. Track reviews, mentoring, docs, and bug triage. Get your open-source reputation score AND an AI-powered code review.
 
@@ -44,6 +44,15 @@
 | **Custom GitHub-Dark Theme** | Inspired by GitHub's dark UI with amber accent colors |
 | **No Login Required** | Analyze any public GitHub profile without authentication |
 | **OG / Twitter Cards** | Auto-generated social sharing cards |
+
+---
+
+## 🚀 Recent Updates
+
+- **Scorecard Popup Modal:** A newly designed modal to view your Passport Card, triggered seamlessly from the dashboard navigation via the "👁️ Passport Card" button.
+- **Dynamic Social Sharing:** Share your Karma Score directly to X (Twitter) or LinkedIn using dynamically computing share URLs.
+- **Improved UI Cleanliness:** The Dashboard has been decluttered by moving the static Passport preview into its dedicated popup modal.
+- **Consistent Radar Imagery:** Labels have been added to the Passport Card radar for perfect parity with the Dashboard's visualization.
 
 ---
 
