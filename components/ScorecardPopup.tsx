@@ -59,11 +59,13 @@ export default function ScorecardPopup({ isOpen, onClose, passport, aiScore }: S
     }
   };
 
+  const baseUrl = (typeof window !== "undefined" ? window.location.origin : (process.env.NEXT_PUBLIC_BASE_URL || "https://karma-commits.vercel.app"));
+
   const tweetText = encodeURIComponent(
-    `My open-source Karma Score: ${passport.score.total}/1000 via @KarmaCommits — https://karma-commits.vercel.app`
+    `My open-source Karma Score: ${passport.score.total}/1000 via @KarmaCommits — ${baseUrl}`
   );
 
-  const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent("https://karma-commits.vercel.app")}`;
+  const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(baseUrl)}`;
 
   return (
     <AnimatePresence>
