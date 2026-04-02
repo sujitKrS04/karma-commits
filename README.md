@@ -10,7 +10,7 @@
 
 ---
 
-## � Preview
+## Preview
 
 ### Dashboard
 ![Karma Commits Dashboard](./public/dashboard-preview.png)
