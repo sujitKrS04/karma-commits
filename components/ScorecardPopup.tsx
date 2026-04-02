@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Download, Twitter, Linkedin } from "lucide-react";
 import PassportCard from "@/components/PassportCard";
@@ -17,6 +17,16 @@ interface ScorecardPopupProps {
 export default function ScorecardPopup({ isOpen, onClose, passport, aiScore }: ScorecardPopupProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (isOpen && e.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [isOpen, onClose]);
 
   const handleDownload = async () => {
     if (!cardRef.current) return;
