@@ -120,7 +120,7 @@
 
 ## 📁 Project Structure
 
-```
+```text
 karma-commits/
 ├── app/                              # Next.js App Router
 │   ├── layout.tsx                    # Root layout
@@ -347,7 +347,7 @@ The leaderboard is file-based (`data/leaderboard.json`). On local dev, it should
 
 ## 📝 License
 
-MIT
+[MIT](LICENSE)
 
 ---
 
