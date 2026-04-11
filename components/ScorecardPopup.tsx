@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Download, Twitter, Linkedin, AlertCircle } from "lucide-react";
+import { X, Download, Share2, AlertCircle } from "lucide-react";
 import PassportCard from "@/components/PassportCard";
 import { type KarmaPassport } from "@/lib/types";
 import { toPng } from "html-to-image";
@@ -17,6 +17,7 @@ interface ScorecardPopupProps {
 export default function ScorecardPopup({ isOpen, onClose, passport, aiScore }: ScorecardPopupProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
+  const [sharing, setSharing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -61,11 +62,42 @@ export default function ScorecardPopup({ isOpen, onClose, passport, aiScore }: S
 
   const baseUrl = (typeof window !== "undefined" ? window.location.origin : (process.env.NEXT_PUBLIC_BASE_URL || "https://karma-commits.vercel.app"));
 
-  const tweetText = encodeURIComponent(
-    `My open-source Karma Score: ${passport.score.total}/1000 via @KarmaCommits — ${baseUrl}`
-  );
+  const shareText = `Check out my Developer Passport! 🚀 Check yours on Karma Commits.`;
 
-  const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(baseUrl)}`;
+  const handleShare = async () => {
+    if (!cardRef.current) return;
+    setSharing(true);
+    setError(null);
+
+    try {
+      const dataUrl = await toPng(cardRef.current, {
+        cacheBust: true,
+        backgroundColor: "#0d1117",
+        pixelRatio: 2,
+      });
+      const response = await fetch(dataUrl);
+      const blob = await response.blob();
+      const file = new File([blob], `${passport.user.login}-passport.png`, { type: "image/png" });
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          text: shareText,
+          url: baseUrl,
+        });
+      } else if (navigator.share) {
+        await navigator.share({ text: shareText, url: baseUrl });
+      } else {
+        setError("Sharing is not supported on this browser.");
+      }
+    } catch (err) {
+      if (err instanceof Error && err.name !== "AbortError") {
+        setError("Failed to share. Try downloading instead.");
+      }
+    } finally {
+      setSharing(false);
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -134,25 +166,14 @@ export default function ScorecardPopup({ isOpen, onClose, passport, aiScore }: S
                   {downloading ? "Generating..." : "Download PNG"}
                 </button>
 
-                <a
-                  href={`https://twitter.com/intent/tweet?text=${tweetText}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 font-mono text-xs px-5 py-2.5 border border-gh-border text-gh-text hover:border-amber/40 hover:text-amber transition-colors"
+                <button
+                  onClick={handleShare}
+                  disabled={sharing}
+                  className="flex items-center gap-2 font-mono text-xs px-5 py-2.5 border border-gh-border text-gh-text hover:border-amber/40 hover:text-amber transition-colors disabled:opacity-50"
                 >
-                  <Twitter size={14} />
-                  Post to X
-                </a>
-
-                <a
-                  href={linkedInUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 font-mono text-xs px-5 py-2.5 border border-[#0077b5]/50 text-gh-text hover:border-[#0077b5] hover:text-[#0077b5] transition-colors"
-                >
-                  <Linkedin size={14} />
-                  LinkedIn
-                </a>
+                  <Share2 size={14} />
+                  {sharing ? "Sharing..." : "Share"}
+                </button>
               </div>
             </motion.div>
           </div>
