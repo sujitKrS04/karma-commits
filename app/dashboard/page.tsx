@@ -355,10 +355,11 @@ function StatCard({ label, value, delay }: { label: string; value: number; delay
 
   return (
     <motion.div
-      className="border border-gh-border bg-gh-bg p-3 sm:p-4 hover:border-amber/40 transition-colors duration-200"
+      className="border border-gh-border bg-gh-bg p-3 sm:p-4 hover:border-amber/40 transition-colors duration-200 cursor-default"
       initial={{ opacity: 0, scale: 0.92 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4, delay }}
+      whileHover={{ y: -3, boxShadow: "0 6px 20px rgba(240,165,0,0.12)" }}
     >
       <div className="font-mono text-xl sm:text-2xl font-bold text-amber tabular-nums">
         {display.toLocaleString()}
@@ -501,9 +502,11 @@ function BadgeSection({ passport }: { passport: KarmaPassport }) {
           <p className="font-mono text-xs text-gh-muted mb-3 uppercase tracking-wider">Locked</p>
           <div className="grid grid-cols-2 gap-3">
             {locked.map((badge) => (
-              <div
+              <motion.div
                 key={badge.id}
                 className="border border-gh-border bg-gh-bg p-3 text-center opacity-40 cursor-default"
+                whileHover={{ opacity: 0.6, scale: 1.02 }}
+                transition={{ duration: 0.15 }}
               >
                 <div className="text-3xl mb-2 leading-none grayscale">{badge.icon}</div>
                 <p className="font-mono text-xs text-gh-muted leading-tight">
@@ -512,7 +515,7 @@ function BadgeSection({ passport }: { passport: KarmaPassport }) {
                 <p className="font-sans text-xs text-gh-muted mt-1 leading-snug line-clamp-2">
                   {badge.description}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </>
