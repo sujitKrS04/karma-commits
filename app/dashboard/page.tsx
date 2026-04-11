@@ -397,6 +397,32 @@ function RadarSection({ passport }: { passport: KarmaPassport }) {
     fullMark: 100,
   }));
 
+  const colorMap = Object.fromEntries(
+    passport.score.dimensions.map((d) => [d.label, d.color])
+  );
+
+  const CustomTick = ({ x, y, payload, textAnchor }: {
+    x: number; y: number;
+    payload: { value: string };
+    textAnchor: "inherit" | "end" | "start" | "middle" | undefined;
+  }) => {
+    const color = colorMap[payload.value] ?? "#e6edf3";
+    const r = 3;
+    const dotCx =
+      textAnchor === "end"   ? x + r + 4
+    : textAnchor === "start" ? x - r - 4
+    : x - payload.value.length * 2.9 - r - 3;
+    return (
+      <g>
+        <circle cx={dotCx} cy={y} r={r} fill={color} />
+        <text x={x} y={y} dy="0.35em" textAnchor={textAnchor}
+          fill="#e6edf3" fontSize={9} fontFamily="'JetBrains Mono', monospace">
+          {payload.value}
+        </text>
+      </g>
+    );
+  };
+
   return (
     <motion.div
       className="border border-gh-border bg-gh-surface p-4 sm:p-6 hover:border-amber/40 transition-colors duration-200"
@@ -412,11 +438,7 @@ function RadarSection({ passport }: { passport: KarmaPassport }) {
           <PolarGrid stroke="#30363d" />
           <PolarAngleAxis
             dataKey="subject"
-            tick={{
-              fill: "#e6edf3",
-              fontSize: 9,
-              fontFamily: "'JetBrains Mono', monospace",
-            }}
+            tick={(props: any) => <CustomTick {...props} />}
           />
           <Radar
             name="Karma"
