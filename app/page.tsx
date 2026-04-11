@@ -296,6 +296,7 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.12 }}
+              whileHover={{ y: -4, boxShadow: "0 8px 32px rgba(240,165,0,0.1)" }}
             >
               {/* Step number */}
               <span className="absolute top-4 right-5 font-mono text-5xl font-bold text-gh-border select-none">

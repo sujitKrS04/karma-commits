@@ -23,6 +23,7 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -32,6 +33,29 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+}
+
+/* ─── Global Smooth Transitions ────────────────────────────────────────────── */
+a {
+  transition: color 0.18s ease, opacity 0.18s ease;
+}
+
+button {
+  transition: color 0.18s ease, background-color 0.18s ease,
+              border-color 0.18s ease, box-shadow 0.18s ease,
+              opacity 0.18s ease, transform 0.15s ease;
+}
+
+/* ─── Focus Ring ─────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ─── Image fade-in ─────────────────────────────────────────────────────── */
+img {
+  transition: opacity 0.3s ease;
 }
 
 /* ─── Typography ────────────────────────────────────────────────────────────── */
@@ -197,9 +221,9 @@ body::after {
   pointer-events: none;
   z-index: 99999;
   transform: translate(-50%, -50%);
-  transition: transform 0.12s ease, width 0.15s ease, height 0.15s ease, opacity 0.15s ease;
+  transition: width 0.18s ease, height 0.18s ease, opacity 0.18s ease;
   mix-blend-mode: screen;
-  will-change: transform;
+  will-change: transform, width, height;
 }
 
 #custom-cursor.cursor-hover {
@@ -224,4 +248,14 @@ body::after {
   margin-left: 6px;
   position: relative;
   top: -1px;
+}
+
+/* ─── Reduced Motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
