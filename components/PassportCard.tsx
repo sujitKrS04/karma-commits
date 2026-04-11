@@ -51,6 +51,32 @@ function PassportCard({ passport, aiScore }: PassportCardProps) {
     fullMark: 100,
   }));
 
+  const colorMap = Object.fromEntries(
+    passport.score.dimensions.map((d) => [d.label, d.color])
+  );
+
+  const CustomTick = ({ x, y, payload, textAnchor }: {
+    x: number; y: number;
+    payload: { value: string };
+    textAnchor: "inherit" | "end" | "start" | "middle" | undefined;
+  }) => {
+    const color = colorMap[payload.value] ?? "#e6edf3";
+    const r = 2.5;
+    const dotCx =
+      textAnchor === "end"   ? x + r + 3
+    : textAnchor === "start" ? x - r - 3
+    : x - payload.value.length * 2.4 - r - 2;
+    return (
+      <g>
+        <circle cx={dotCx} cy={y} r={r} fill={color} />
+        <text x={x} y={y} dy="0.35em" textAnchor={textAnchor}
+          fill="#e6edf3" fontSize={8} fontFamily="'JetBrains Mono', monospace">
+          {payload.value}
+        </text>
+      </g>
+    );
+  };
+
   const earnedBadges = passport.badges.filter((b) => b.earned);
 
   const handleDownload = async () => {
@@ -361,11 +387,7 @@ function PassportCard({ passport, aiScore }: PassportCardProps) {
                   <PolarGrid stroke="#30363d" strokeOpacity={0.9} />
                   <PolarAngleAxis
                     dataKey="subject"
-                    tick={{
-                      fill: "#e6edf3",
-                      fontSize: 8,
-                      fontFamily: "'JetBrains Mono', monospace",
-                    }}
+                    tick={(props: any) => <CustomTick {...props} />}
                   />
                   <Radar
                     name="score"
