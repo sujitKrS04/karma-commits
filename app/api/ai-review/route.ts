@@ -4,7 +4,7 @@
 
 import { NextResponse } from "next/server";
 import { fetchCodeSamples } from "@/lib/codeFetcher";
-import { generateCodeReview } from "@/lib/aiReviewer";
+import { generateCodeReview, normalizeAIReview } from "@/lib/aiReviewer";
 import { type AIReview } from "@/lib/types";
 
 // ─── In-memory cache (30-min TTL) ─────────────────────────────────────────────
@@ -32,7 +32,7 @@ export async function GET(request: Request) {
   // Cache hit?
   const cached = cache.get(username);
   if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
-    return NextResponse.json({ review: cached.data, cached: true });
+    return NextResponse.json({ review: normalizeAIReview(cached.data), cached: true });
   }
 
   try {
