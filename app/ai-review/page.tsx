@@ -271,7 +271,7 @@ function DimensionCard({
           ✓ STRENGTHS
         </p>
         <ul className="space-y-1">
-          {dim.strengths.map((s, i) => (
+          {(dim.strengths || []).map((s, i) => (
             <li key={i} className="flex gap-1.5 items-start">
               <span style={{ color: "#10b981", fontSize: "10px", marginTop: "2px" }}>●</span>
               <span className="font-sans text-xs text-gh-muted">{s}</span>
@@ -294,7 +294,7 @@ function DimensionCard({
           → TO IMPROVE
         </p>
         <ul className="space-y-1">
-          {dim.improvements.map((imp, i) => (
+          {(dim.improvements || []).map((imp, i) => (
             <li key={i} className="flex gap-1.5 items-start">
               <span style={{ color: "#f0a500", fontSize: "10px", marginTop: "2px" }}>→</span>
               <span className="font-sans text-xs text-gh-muted">{imp}</span>
@@ -531,8 +531,8 @@ function AIReviewPageContent() {
             Dimension Breakdown
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {review.dimensions.map((dim, i) => (
-              <DimensionCard key={dim.id} dim={dim} delay={i * 150} />
+            {(review.dimensions || []).map((dim, i) => (
+              <DimensionCard key={dim.id || i} dim={dim} delay={i * 150} />
             ))}
           </div>
         </div>
@@ -557,7 +557,7 @@ function AIReviewPageContent() {
               YOUR SUPERPOWERS ✦
             </h3>
             <ul className="space-y-3">
-              {review.topStrengths.map((s, i) => (
+              {(review.topStrengths || []).map((s, i) => (
                 <li key={i} className="flex gap-3 items-start">
                   <span style={{ color: "#10b981", flexShrink: 0 }}>✦</span>
                   <span className="font-sans text-sm text-gh-text">{s}</span>
@@ -584,7 +584,7 @@ function AIReviewPageContent() {
               LEVEL UP HERE →
             </h3>
             <ul className="space-y-3">
-              {review.topImprovements.map((imp, i) => (
+              {(review.topImprovements || []).map((imp, i) => (
                 <li key={i} className="flex gap-3 items-start">
                   <span style={{ color: "#f0a500", flexShrink: 0 }}>→</span>
                   <span className="font-sans text-sm text-gh-text">{imp}</span>
@@ -595,7 +595,7 @@ function AIReviewPageContent() {
         </div>
 
         {/* ══════ REPO HIGHLIGHTS ══════ */}
-        {review.repoHighlights.length > 0 && (
+        {Array.isArray(review.repoHighlights) && review.repoHighlights.length > 0 && (
           <div>
             <h2 className="font-mono text-xs text-gh-muted tracking-widest uppercase mb-4">
               Repo Highlights
