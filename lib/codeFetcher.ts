@@ -86,7 +86,7 @@ export async function fetchCodeSamples(
         )
         .map((f) => ({ path: f.path!, size: f.size ?? 0 }))
         .sort((a, b) => b.size - a.size)
-        .slice(0, 2);
+        .slice(0, 3);
     } catch {
       // Tree fetch failed — skip file fetching for this repo
     }
@@ -94,7 +94,7 @@ export async function fetchCodeSamples(
     // ── B-ii) Fetch file contents ──────────────────────────────────────────────
     const files: CodePayload["repos"][number]["files"] = [];
     for (const file of candidateFiles) {
-      await sleep(150);
+      await sleep(200);
       try {
         const { data } = await octokit.rest.repos.getContent({
           owner,
@@ -106,8 +106,8 @@ export async function fetchCodeSamples(
           const raw = Buffer.from(data.content, "base64").toString("utf-8");
           const truncated = truncateLines(
             raw,
-            40,
-            "// ... [file truncated for review]"
+            80,
+            "// ... [file truncated at 80 lines]"
           );
           files.push({
             path: file.path,
@@ -129,7 +129,7 @@ export async function fetchCodeSamples(
       });
       if ("content" in data && data.content) {
         const raw = Buffer.from(data.content, "base64").toString("utf-8");
-        readme = truncateLines(raw, 25, "<!-- README truncated -->");
+        readme = truncateLines(raw, 60, "<!-- README truncated at 60 lines -->");
       }
     } catch {
       // No README — fine
