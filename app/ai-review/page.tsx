@@ -124,7 +124,7 @@ function LoadingScreen({ done }: { done: boolean }) {
           ANALYZING YOUR CODE
         </h1>
         <p className="font-sans text-gh-muted text-sm mb-10">
-          Powered by Groq
+          Powered by Groq + Gemini
         </p>
 
         {/* Progress bar */}
@@ -688,7 +688,7 @@ function AIReviewPageContent() {
             GQ
           </span>
           <span className="font-sans text-xs text-gh-muted whitespace-nowrap hidden sm:inline">
-            Powered by Groq
+            Powered by Groq + Gemini
           </span>
         </div>
 
