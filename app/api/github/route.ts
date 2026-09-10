@@ -64,9 +64,9 @@ export async function GET(request: NextRequest) {
 
     setCache(username, result);
 
-    // Upsert to leaderboard for any username analyzed
+    // Upsert to Supabase leaderboard (Chunk 10) — non-fatal if it fails
     try {
-      upsertLeaderboardEntry({
+      await upsertLeaderboardEntry({
         username: result.username,
         name: result.name ?? result.username,
         avatarUrl: result.avatarUrl,
@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
           .filter((b) => b.earned)
           .map((b) => ({ id: b.id, name: b.name ?? b.id, icon: b.icon, earned: true })),
       });
-      console.log(`[API] leaderboard updated for ${username}`);
+      console.log(`[API] leaderboard upserted for ${username}`);
     } catch (leErr) {
       // Non-fatal — log and continue
       console.warn(`[API] leaderboard upsert failed for ${username}:`, leErr);
