@@ -5,7 +5,9 @@
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
+[![Gemini](https://img.shields.io/badge/Powered%20by-Gemini-4285F4?logo=google&logoColor=white)](https://aistudio.google.com/)
 [![Groq](https://img.shields.io/badge/Powered%20by-Groq-orange)](https://groq.com)
+[![Supabase](https://img.shields.io/badge/Database-Supabase-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com)
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel)](https://karma-commits.vercel.app)
 
 ---
@@ -22,7 +24,7 @@
 > - **Achievement Badges** — 18+ earned badges based on your contribution patterns
 > - **Karma Passport** — Downloadable PNG card to share your score
 > - **Account Stats** — Followers, public repos, member since
-> - **AI Review Button** — Quick access to get Groq AI code feedback
+> - **AI Review Button** — Quick access to get Gemini+Groq AI code feedback
 
 ---
 
@@ -34,12 +36,12 @@
 | **5 Reputation Dimensions** | Code Quality, Collaboration, Mentorship, Documentation, Consistency |
 | **6 Karma Tiers** | Seed → Sprout → Contributor → Maintainer → Luminary → Legend |
 | **Shareable Passport Card** | Downloadable PNG card with radar chart, tier badge, and earned badges |
-| **AI Code Review** | Groq-powered analysis of your code with personality type & improvements |
+| **Dual-Model AI Code Review** | Gemini-powered deep code analysis + Groq-powered personality insights |
 | **18+ Achievement Badges** | Earn badges for specific contribution patterns (prolific reviewer, doc guardian, mentor, etc.) |
 | **Interactive Radar Chart** | 5D visualization of your reputation dimensions |
-| **Community Leaderboard** | Filterable leaderboard sorted by Overall, Reviewer, Builder, Mentor, Bug Hunter, Documentor |
+| **Live Database Leaderboard** | Supabase-backed leaderboard sorted dynamically by Overall, Reviewer, Builder, Mentor, Bug Hunter, Documentor |
 | **10-Minute API Cache** | In-memory cache to protect against GitHub API rate limits |
-| **Rate Limit Handling** | Live countdown UI when GitHub API limits are hit |
+| **AI Rate Limiting** | Built-in token bucket rate limiter to protect AI endpoints |
 | **Loading Screens** | Beautiful animated loading screens after entering a username |
 | **Custom GitHub-Dark Theme** | Inspired by GitHub's dark UI with amber accent colors |
 | **No Login Required** | Analyze any public GitHub profile without authentication |
@@ -49,10 +51,11 @@
 
 ## 🚀 Recent Updates
 
+- **Supabase Leaderboard:** Completely replaced the file-based `leaderboard.json` with a live PostgreSQL database hosted on Supabase, supporting dynamic category sorting.
+- **Dual-Model AI Review:** AI Code Review now uses **Gemini Flash Lite** (1M token window) as the primary engine for deep code analysis without chunk limits, combined with **Groq** for ultra-fast creative personality insights.
+- **Rate Limiting:** Added in-memory token bucket rate limiting for the AI API routes to prevent abuse.
 - **Scorecard Popup Modal:** A newly designed modal to view your Passport Card, triggered seamlessly from the dashboard navigation via the "👁️ Passport Card" button.
 - **Dynamic Social Sharing:** Share your Karma Score directly to X (Twitter) or LinkedIn using dynamically generated share URLs.
-- **Improved UI Cleanliness:** The Dashboard has been decluttered by moving the static Passport preview into its dedicated popup modal.
-- **Consistent Radar Imagery:** Labels have been added to the Passport Card radar for perfect parity with the Dashboard's visualization.
 
 ---
 
@@ -61,7 +64,7 @@
 1. **Home Page** → Enter any GitHub username (no login required)
 2. **Loading Screen** → App analyzes public contributions (1–5 seconds)
 3. **Dashboard** → See your Karma Score, radar chart, badges, and passport card
-4. **AI Review** → Click "✦ AI Review" to get Groq AI feedback on your code
+4. **AI Review** → Click "✦ AI Review" to get Gemini+Groq feedback on your code
 5. **Share** → Download passport or share on social media
 
 ---
@@ -108,8 +111,10 @@
 | **Framework** | [Next.js 14](https://nextjs.org) (App Router) |
 | **Language** | TypeScript 5 |
 | **Styling** | Tailwind CSS 3 + custom GitHub-dark tokens |
+| **Database** | [Supabase](https://supabase.com) (PostgreSQL) |
 | **GitHub API** | [@octokit/rest](https://github.com/octokit/rest.js) |
-| **AI** | [Groq SDK](https://groq.com) for ultra-fast LLM inference |
+| **AI (Analysis)**| [@google/generative-ai](https://www.npmjs.com/package/@google/generative-ai) (Gemini SDK) |
+| **AI (Insights)**| [Groq SDK](https://groq.com) for ultra-fast personality LLM inference |
 | **Charts** | [Recharts](https://recharts.org) (Radar chart) |
 | **Animations** | [Framer Motion](https://www.framer.com/motion) |
 | **Export** | [html-to-image](https://github.com/bubkoo/html-to-image) (PNG download) |
@@ -135,7 +140,7 @@ karma-commits/
 │   │   └── page.tsx                  # Community leaderboard (filterable, sortable)
 │   │
 │   ├── ai-review/
-│   │   └── page.tsx                  # AI code review results (Groq-powered)
+│   │   └── page.tsx                  # AI code review results (Gemini+Groq-powered)
 │   │
 │   └── api/
 │       ├── github/
@@ -145,7 +150,7 @@ karma-commits/
 │       │   └── route.ts              # GET /api/ai-review?username=...
 │       │
 │       └── leaderboard/
-│           └── route.ts              # GET + POST /api/leaderboard
+│           └── route.ts              # GET + POST /api/leaderboard (Supabase queries)
 │
 ├── components/                       # Reusable UI components
 │   ├── PassportCard.tsx              # Downloadable karma passport (PNG export)
@@ -165,14 +170,12 @@ karma-commits/
 ├── lib/                              # Core business logic
 │   ├── karmaEngine.ts                # Score calculation & badges
 │   ├── githubFetcher.ts              # GitHub data fetching (Octokit)
-│   ├── aiReviewer.ts                 # Groq AI review logic
-│   ├── leaderboard.ts                # Leaderboard management (file-based)
+│   ├── aiReviewer.ts                 # Dual-model AI review logic (Gemini + Groq)
+│   ├── leaderboard.ts                # Supabase database helpers & CRUD
+│   ├── rateLimiter.ts                # In-memory token bucket rate limiting
 │   └── types.ts                      # TypeScript types & interfaces
 │
-├── data/
-│   └── leaderboard.json              # Persistent leaderboard store
-│
-├── .env.local                        # Environment variables (GITHUB_TOKEN, GITHUB_CLIENT_ID, etc.)
+├── .env.local                        # Environment variables (GitHub, Groq, Gemini, Supabase)
 ├── next.config.mjs                   # Next.js config
 ├── tailwind.config.ts                # Tailwind design tokens
 ├── tsconfig.json                     # TypeScript config
@@ -187,7 +190,9 @@ karma-commits/
 
 - Node.js 18+
 - A GitHub account
-- (Optional) Groq API key for AI Review feature
+- A free Supabase Project
+- Google Gemini API Key
+- Groq API Key
 
 ### 1. Clone the repository
 
@@ -210,7 +215,36 @@ npm install
 4. Select scopes: `public_repo` and `read:user`
 5. Click **"Generate token"** and copy it
 
-### 4. Set up environment variables
+### 4. Create a Supabase Database Table
+
+In your Supabase project's SQL Editor, run the following to set up the Leaderboard table:
+
+```sql
+CREATE TABLE leaderboard (
+  username          TEXT PRIMARY KEY,
+  name              TEXT DEFAULT '',
+  avatar_url        TEXT DEFAULT '',
+  karma_score       INTEGER DEFAULT 0,
+  score_builder     INTEGER DEFAULT 0,
+  score_reviewer    INTEGER DEFAULT 0,
+  score_bug_hunter  INTEGER DEFAULT 0,
+  score_documentor  INTEGER DEFAULT 0,
+  score_mentor      INTEGER DEFAULT 0,
+  rank              TEXT DEFAULT 'Apprentice',
+  badges            JSONB DEFAULT '[]',
+  last_updated      TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Recommended: Create indexes for fast sorting
+CREATE INDEX idx_leaderboard_karma      ON leaderboard (karma_score DESC);
+CREATE INDEX idx_leaderboard_reviewer   ON leaderboard (score_reviewer DESC);
+CREATE INDEX idx_leaderboard_builder    ON leaderboard (score_builder DESC);
+CREATE INDEX idx_leaderboard_mentor     ON leaderboard (score_mentor DESC);
+CREATE INDEX idx_leaderboard_bug_hunter ON leaderboard (score_bug_hunter DESC);
+CREATE INDEX idx_leaderboard_documentor ON leaderboard (score_documentor DESC);
+```
+
+### 5. Set up environment variables
 
 Create a `.env.local` file in the project root:
 
@@ -218,13 +252,19 @@ Create a `.env.local` file in the project root:
 # GitHub API Token (for fetching user data)
 GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-# (Optional) Groq API Key for AI Code Review
+# AI Review Models
 GROQ_API_KEY=gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+GEMINI_API_KEY=AIzaSy_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# Supabase (Leaderboard Database)
+NEXT_PUBLIC_SUPABASE_URL=https://xxxxxxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+SUPABASE_SERVICE_ROLE_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-**Note:** You can get a free Groq API key at [console.groq.com](https://console.groq.com)
+**Note:** You can get a free Groq API key at [console.groq.com](https://console.groq.com), Gemini API key at [aistudio.google.com](https://aistudio.google.com/), and Supabase database at [supabase.com](https://supabase.com/).
 
-### 5. Run the development server
+### 6. Run the development server
 
 ```bash
 npm run dev
@@ -246,7 +286,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ### Get an AI Code Review
 
 1. On the dashboard, click **"✦ AI Review"** in the top navigation
-2. The app analyzes your top repositories using Groq AI
+2. The app analyzes your top repositories using the dual Gemini+Groq AI engine.
 3. Get instant feedback on:
    - Overall code quality score
    - Your developer personality (Pragmatist, Perfectionist, Architect, etc.)
@@ -256,7 +296,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Check the Leaderboard
 
-Click **"Leaderboard"** to see the top open-source contributors ranked by:
+Click **"Leaderboard"** to see the top open-source contributors dynamically ranked by:
 - Overall Karma Score
 - Reviewer (code review focus)
 - Builder (code output)
@@ -270,9 +310,9 @@ Click **"Leaderboard"** to see the top open-source contributors ranked by:
 
 | Endpoint | Method | Description |
 |---|---|---|
-| `GET /api/github?username=...` | GET | Fetch & score a user's GitHub stats (10-min cache) |
-| `GET /api/ai-review?username=...` | GET | Get Groq AI code review feedback |
-| `GET /api/leaderboard?sort=...` | GET | Get leaderboard sorted by score type |
+| `GET /api/github?username=...` | GET | Fetch & score a user's GitHub stats (10-min cache). Automatically upserts DB. |
+| `GET /api/ai-review?username=...` | GET | Get Gemini+Groq AI code review feedback. Rate limited. |
+| `GET /api/leaderboard?sort=...` | GET | Get leaderboard from Supabase sorted by score type |
 | `POST /api/leaderboard` | POST | Upsert a user's leaderboard entry |
 
 ---
@@ -297,10 +337,12 @@ npm start
 2. Go to [vercel.com/new](https://vercel.com/new) and import your repo
 3. Add environment variables:
    - `GITHUB_TOKEN`
-   - `GROQ_API_KEY` (optional)
+   - `GROQ_API_KEY`
+   - `GEMINI_API_KEY`
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
 4. Deploy!
-
-> **Note on Persistence:** The leaderboard uses a file-based store. On Vercel's serverless infrastructure, files don't persist across deployments. For production, migrate `lib/leaderboard.ts` to a database (Vercel KV, PlanetScale, Supabase, etc.).
 
 ---
 
@@ -337,11 +379,11 @@ Make sure your GitHub token has the correct scopes: `public_repo` and `read:user
 
 ### AI Review takes too long
 
-The AI review analyzes your top repositories, which can take 10–15 seconds. This is normal.
+The AI review analyzes your top repositories using Gemini's large context window, which can take 10–15 seconds. This is normal.
 
 ### Leaderboard not updating
 
-The leaderboard is file-based (`data/leaderboard.json`). On local dev, it should update when you analyze a user. On Vercel, see the production persistence note above.
+Ensure your Supabase keys (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SERVICE_ROLE_KEY`) are correct, and verify you ran the `CREATE TABLE` SQL command in the Supabase dashboard.
 
 ---
 
