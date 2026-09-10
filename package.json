@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@octokit/rest": "^22.0.1",
     "framer-motion": "^12.35.2",
     "groq-sdk": "^1.1.1",

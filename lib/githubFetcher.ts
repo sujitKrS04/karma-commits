@@ -1,6 +1,54 @@
 import { Octokit } from "@octokit/rest";
 import type { ContributionData, GitHubStats, GitHubUserData } from "./types";
 
+// ─── Chunk 3: Repo Selection ───────────────────────────────────────────────────
+
+export interface RepoMeta {
+  owner: string;
+  name: string;
+  description: string;
+  stars: number;
+  language: string;
+  url: string;
+  pushedAt: string;
+}
+
+/**
+ * Fetches a user's repos sorted by most recently pushed,
+ * filters out forks, and returns the top `n` results (default 2).
+ */
+export async function fetchTopNonForkRepos(
+  username: string,
+  accessToken: string,
+  n = 2
+): Promise<RepoMeta[]> {
+  const octokit = new Octokit({ auth: accessToken });
+
+  const { data } = await octokit.rest.repos.listForUser({
+    username,
+    per_page: 50,
+    type: "owner",
+    sort: "pushed",
+    direction: "desc",
+  });
+
+  const nonForks = data
+    .filter((r) => !r.fork)
+    .slice(0, n)
+    .map((r) => ({
+      owner: r.owner?.login ?? username,
+      name: r.name,
+      description: r.description ?? "",
+      stars: r.stargazers_count ?? 0,
+      language: r.language ?? "Unknown",
+      url: r.html_url ?? `https://github.com/${username}/${r.name}`,
+      pushedAt: r.pushed_at ?? new Date().toISOString(),
+    }));
+
+  return nonForks;
+}
+
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
