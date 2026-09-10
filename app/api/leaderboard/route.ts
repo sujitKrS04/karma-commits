@@ -1,8 +1,12 @@
+// ─── /api/leaderboard — Chunk 11 (Supabase-backed) ───────────────────────────
+// GET /api/leaderboard?sort=karmaScore
+//   sort options: karmaScore | reviewer | mentor | builder | bugHunter | documentor
+// POST /api/leaderboard  (body: LeaderboardUser without updatedAt)
+
 import { NextRequest, NextResponse } from "next/server";
 import {
-  readLeaderboard,
+  readLeaderboardSorted,
   upsertLeaderboardEntry,
-  sortLeaderboard,
 } from "@/lib/leaderboard";
 import type { LeaderboardUser } from "@/lib/types";
 
@@ -18,8 +22,14 @@ export async function GET(req: NextRequest) {
     | "bugHunter"
     | "documentor";
 
-  const entries = readLeaderboard();
-  const sorted = sortLeaderboard(entries, sort);
+  // Validate sort key
+  const validSorts = ["karmaScore", "reviewer", "mentor", "builder", "bugHunter", "documentor"];
+  const safeSortKey = validSorts.includes(sort)
+    ? (sort as "karmaScore" | "reviewer" | "mentor" | "builder" | "bugHunter" | "documentor")
+    : "karmaScore";
+
+  // Chunk 11: query Supabase sorted server-side by the requested column
+  const sorted = await readLeaderboardSorted(safeSortKey);
   return NextResponse.json(sorted);
 }
 
@@ -32,7 +42,7 @@ export async function POST(req: NextRequest) {
     if (!body.username) {
       return NextResponse.json({ error: "username required" }, { status: 400 });
     }
-    upsertLeaderboardEntry(body);
+    await upsertLeaderboardEntry(body);
     return NextResponse.json({ ok: true });
   } catch (err) {
     return NextResponse.json(

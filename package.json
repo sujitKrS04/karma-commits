@@ -11,6 +11,7 @@
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@octokit/rest": "^22.0.1",
+    "@supabase/supabase-js": "^2.116.0",
     "framer-motion": "^12.35.2",
     "groq-sdk": "^1.1.1",
     "html-to-image": "^1.11.13",
